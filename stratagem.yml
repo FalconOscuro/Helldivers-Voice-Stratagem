@@ -1,0 +1,274 @@
+# SPECIAL
+
+- name: Reinforce
+  trigger: [ reinforce ]
+  code: [ U, D, R, L, U ]
+  type: [ special, hellpod ]
+
+- name: Resupply
+  trigger: [ resupply ]
+  code: [ D, D, U R ]
+  type: [ special, hellpod ]
+
+- name: NUX-223 Hellbomb
+  trigger: [ hellbomb ]
+  code: [ U, L, R, D, U, D ]
+  type: [ special, hellpod, explosive ]
+
+- name: Emergency Beacon
+  trigger: [ s o s ]
+  code: [ U, D, R, U ]
+  type: [ special, hellpod ]
+
+
+# PATRIOTIC ADMINISTRATION CENTRE
+
+- name: MG-94 Machine Gun
+  trigger: [ machinegun ]
+  code: [ D, L, D, U, R ]
+  type: [ supply, support weapon, hellpod ]
+
+- name: APW-1 Anti-Materiel Rifle
+  trigger: [ anti material rifle ]
+  code: [ D, L, R, U, D ]
+  type: [ supply, support weapon, hellpod ]
+
+- name: M-105 Stalwart
+  trigger: [ stalwart ]
+  code: [ D, L, D, U, U, L ]
+  type: [ supply, support weapon, hellpod ]
+
+- name: EAT-17 Expendable Anti-Tank
+  trigger: [ expendable anti tank ]
+  code: [ D, D, L, U, R ]
+  type: [ supply, support weapon, hellpod, explosive ]
+
+- name: GR-8 Recoilless Rifle
+  trigger: [ recoilless rifle ]
+  code: [ D, L, R, R, L ]
+  type: [ supply, support weapon, hellpod, explosive ]
+
+- name: FLAM-40 Flamethrower
+  trigger: [ flamethrower ]
+  code: [ D, L, D, R, L ]
+  type: [ supply, support weapon, hellpod, incendiary ]
+
+- name: AC-8 Autocannon
+  trigger: [ autocannon ]
+  code: [ D, L, D, U, U, R ]
+  type: [ supply, support weapon, hellpod ]
+
+- name: RS-422 Railgun
+  trigger: [ railgun ]
+  code: [ D, R, L, D, U, L, R ]
+  type: [ supply, support weapon, hellpod ]
+
+- name: FAF-14 Spear
+  trigger: [ spear ]
+  code: [] # CODE UNKNOWN
+  type: [ supply, support weapon, hellpod ]
+
+
+# ORBITAL CANNONS
+
+- name: Orbital Gatling Barrage
+  trigger: [ orbital gatling barrage ]
+  code: [ R, D, L, U, U ]
+  type: [ offensive, explosive, orbital ]
+
+- name: Orbital Airburst Strike
+  trigger: [ orbital airburst strike ]
+  code: [ R, R, R ]
+  type: [ offensive, explosive, orbital ]
+
+- name: Orbital 120mm HE Barrage
+  trigger: [ orbital 120mm h e barrage ]
+  code: [ R, D, L, R, D ]
+  type: [ offensive, explosive, orbital ]
+
+- name: Orbital 380mm HE Barrage
+  trigger: [ orbital 380mm h e barrage ]
+  code: [ R, D, U, U, L, D, D ]
+  type: [ offensive, explosive, orbital ]
+
+- name: Orbital Walking Barrage
+  trigger: [ orbital walking barrage ]
+  code: [] # CODE UNKOWN
+  type: [ offensive, explosive, orbital ]
+
+- name: Orbital Laser
+  trigger: [ orbital laser ]
+  code: [] # CODE UNKOWN
+  type: [ offensive, orbital ]
+
+- name: Orbital Railcannon Strike
+  trigger: [ orbital railcannon strike ]
+  code: [] # CODE UNKOWN
+  type: [ offensive, orbital ]
+
+
+# HANGAR
+
+- name: Eagle Strafing Run
+  trigger: [ eagle strafing run, strafing run ]
+  code: [ U, R, R ]
+  type: [ offensive, eagle ]
+
+- name: Eagle Airstrike
+  trigger: [ eagle airstrike, airstrike ]
+  code: [] # CODE UNKOWN
+  type: [ offensive, eagle, explosive ]
+
+- name: Eagle Cluster Bomb
+  trigger: [ eagle cluster bomb, cluster bomb ]
+  code: [ U, R, D, D, R ]
+  type: [ offensive, eagle, explosive ]
+
+- name: Eagle Napalm Strike
+  trigger: [ eagle napalm strike, napalm strike ]
+  code: [ U, R, D, U ]
+  type: [ offensive, eagle, explosive ]
+
+- name: Lift-850 Jump Pack
+  trigger: [ jump pack ]
+  code: [ D, U, U, D, U ]
+  type: [ supply, hellpod, backpack ]
+
+- name: Eagle Smoke Strike
+  trigger: [ eagle smoke strike ]
+  code: [] # CODE UNKOWN
+  type: [ offensive, eagle, explosive ]
+
+- name: Eagle 110mm Rocket Pods
+  trigger: [ eagle rocket pods, rocket pods ]
+  code: [] # CODE UNKOWN
+  type: [ offensive, eagle, explosive ]
+
+- name: Eagle 500kg Bomb
+  trigger: [ eagle 500kg bomb, 500kg bomb ]
+  code: [ U, R, D, D, D ]
+  type: [ offensive, eagle, explosive ]
+
+
+# BRIDGE
+
+- name: Orbital Precision Strike
+  trigger: [ orbital precision strike ]
+  code: [ R, R, U ]
+  type: [ offensive, explosive, orbital ]
+
+- name: Oribtal Gas Strike
+  trigger: [ orbital gas strike ]
+  code: [] # CODE UNKOWN
+  type: [ offensive, explosive, orbital ]
+
+- name: Orbital EMS Strike
+  trigger: [ orbital e m s strike ]
+  code: [] # CODE UNKOWN
+  type: [ offensive, orbital ]
+
+- name: Orbital Smoke Strike
+  trigger: [ orbital somke strike ]
+  code: [] # CODE UNKOWN
+  type: [ offensive, explosive, orbital ]
+
+- name: E/MG-101 HMG Emplacement
+  trigger: [ h m g emplacement ]
+  code: [] # CODE UNKOWN
+  type: [ defensive. hellpod ]
+
+- name: FX-12 Shield Generator Relay
+  trigger: [ shield generator relay ]
+  code: [] # CODE UNKOWN
+  type: [ defensive. hellpod ]
+
+- name: A/ARC-3 Tesla Tower
+  trigger: [ tesla tower ]
+  code: [] # CODE UNKOWN
+  type: [ defensive. hellpod, sentry ]
+
+
+# ENGINEERING BAY
+
+- name: MD-6 Anti-Personnel Minefield
+  trigger: [ anti personnel minefield ]
+  code: [ D, L, U, R ]
+  type: [ defensive. hellpod, explosive ]
+
+- name: B-1 Supply Pack
+  trigger: [ supply pack ]
+  code: [ D, L, D, U, U, D ]
+  type: [ supply, hellpod, backpack ]
+
+- name: GL-21 Grenade Launcher
+  trigger: [ grenade launcher ]
+  code: [ D, L, U, L, D ]
+  type: [ supply, support weapon, hellpod, explosive ]
+
+- name: LAS-98 Laser Cannon
+  trigger: [ laser cannon ]
+  code: [] # CODE UNKOWN
+  type: [ supply, support weapon, hellpod ]
+
+- name: MD-14 Incendiary Mines
+  trigger: [ incendiary mines ]
+  code: [] # CODE UNKOWN
+  type: [ defensive. hellpod, explosive ]
+
+- name: AX/LAS-5 "Guard Dog" Rover
+  trigger: [ rover ]
+  code: [ D, U, L, U, R, R ]
+  type: [ supply, hellpod, backpack ]
+
+- name: SH-20 Ballistic Shield Backpack
+  trigger: [ shield backpack ]
+  code: [] # CODE UNKOWN
+  type: [ supply, hellpod, backpack ]
+
+- name: ARC-3 Arc Thrower
+  trigger: [ arc thrower ]
+  code: [] # CODE UNKOWN
+  type: [ supply, support weapon, hellpod ]
+
+- name: SH-32 Shield Generator Backpack
+  trigger: [ shield generator backpack ]
+  code: [] # CODE UNKOWN
+  type: [ supply, hellpod, backpack ]
+
+
+# ROBOTICS WORKSHOP
+
+- name: A/MG-43 Machine Gun Sentry
+  trigger: [ machine gun sentry ]
+  code: [] # CODE UNKOWN
+  type: [ defensive, hellpod, sentry ]
+
+- name: A/G-16 Gatling Sentry
+  trigger: [ gatling sentry ]
+  code: [] # CODE UNKOWN
+  type: [ defensive, hellpod, sentry ]
+
+- name: A/M-12 Mortar Sentry
+  trigger: [ mortar sentry ]
+  code: [] # CODE UNKOWN
+  type: [ defensive, hellpod, sentry, explosive ]
+
+- name: AX/AR-23 "Guard Dog"
+  trigger: [ guard dog ]
+  code: [] # CODE UNKOWN
+  type: [ supply, hellpod, backpack ]
+
+- name: A/AC-8 Autocannon Sentry
+  trigger: [ autocannon sentry ]
+  code: [] # CODE UNKOWN
+  type: [ defensive, hellpod, sentry, explosive ]
+
+- name: A/MLS-4X Rocket Sentry
+  trigger: [ rocket sentry ]
+  code: [] # CODE UNKOWN
+  type: [ defensive, hellpod, sentry, explosive ]
+
+- name: A/M-23 EMS Mortar Sentry
+  trigger: [ e m s mortar sentry ]
+  code: [] # CODE UNKOWN
+  type: [ defensive, hellpod, sentry, explosive ]
