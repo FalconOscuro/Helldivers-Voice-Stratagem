@@ -1,89 +1,163 @@
+import sys
+
 import speech_recognition as sr
 import keyboard as kb
 import yaml
 import time
+import enum
 
-print("Starting strategem recogition")
-print("SpeechRecognition Version: {0}".format(sr.__version__))
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPalette
 
-print("Loading config...")
-with open('stratagem.yml', 'r') as file:
-    stratagems = yaml.safe_load(file)
+# status enum
+class Status(enum.Enum):
+    IDLE = { "colour" : Qt.black, "text" : "Idle" }
+    LISTENING = { "colour" : Qt.blue, "text" : "Listening..." }
+    PROCESSING = { "colour" : Qt.red, "text" : "Processing..." }
+    EXECUTING = { "colour" : Qt.green, "text" : "Executing!" }
 
-with open('config.yml', 'r') as file:
-    config = yaml.safe_load(file)
+class status_box(QLineEdit):
+    def __init__(self, *args, **kwargs):
+        QLineEdit.__init__(self, *args, **kwargs)
 
-strat_key = config["keys"]["stratagem"]
+        self.setReadOnly(True)
+    
+    def setStatus(self, status: Status):
+        palette = QPalette()
+        palette.setColor(QPalette.Text, status.value["colour"])
+        self.setPalette(palette)
+        self.setText(status.value["text"])
 
-recog = sr.Recognizer()
-mic = sr.Microphone()
-print("Calibrating for ambient noise...")
-with mic as source:
-    recog.adjust_for_ambient_noise(source)
+class output_box(QPlainTextEdit):
+    def __init__(self, *args, **kwargs):
+        QPlainTextEdit.__init__(self, *args, **kwargs)
+
+        self.setReadOnly(True)
 
 def format_command(command):
     return command.replace("-", " ").lower()
 
-def execute_stratagem(stratagem):
-    print("Executing {0}.".format(stratagem["name"]))
-    for key in stratagem["code"]:
-        if key == "U":
-            kb.send(config["keys"]["up"])
-        elif key == "D":
-            kb.send(config["keys"]["down"])
-        elif key == "L":
-            kb.send(config["keys"]["left"])
-        else:
-            kb.send(config["keys"]["right"])
-        
-        # Ignore on last?
-        time.sleep(config["dialling-speed"])
+class hdvs(QMainWindow):
+    def __init__(self, parent=None):
+        super(QMainWindow, self).__init__(parent)
 
+        self.setWindowTitle("Helldivers Voice Stratagem")
+        layout = QVBoxLayout()
 
-def interpret_stratagem(command):
-    command = format_command(command)
+        status = status_box()
+        layout.addWidget(status)
+        self.status = status
 
-    for stratagem in stratagems:
-        if not stratagem["enabled"]:
-            continue
+        outbox = output_box()
+        layout.addWidget(outbox)
+        self.outbox = outbox
 
-        # Could be accomplished using a trigger map
-        # Has not been done in yaml file for readability
-        for trigger in stratagem["trigger"]:
-            if command == format_command(trigger):
-                print("Found match: {0}".format(stratagem["name"]))
-                execute_stratagem(stratagem)
-                return True
-        
-    return False
+        main = QWidget()
+        main.setLayout(layout)
+        self.setCentralWidget(main)
 
-def listen():
-    while True:
-        print("Listening...")
-        with mic as source:
-            audio = recog.listen(source)
-    
-        print("Input recieved, converting... ")
-        try:
-            command = recog.recognize_google(audio)
-            print("Heard:", command)
+        print("Starting stratagem recogition")
+        print("SpeechRecognition Version: {0}".format(sr.__version__))
 
-            if interpret_stratagem(command):
-                break
+        print("Loading config...")
+        with open("stratagem.yml", 'r') as file:
+            self.stratagems = yaml.safe_load(file)
+
+        with open("config.yml", 'r') as file:
+            self.config = yaml.safe_load(file)
+
+        self.strat_key = self.config["keys"]["stratagem"]
+
+        self.recog = sr.Recognizer()
+        self.mic = sr.Microphone()
+        print("Calibrating for ambient noise...")
+        with self.mic as source:
+            self.recog.adjust_for_ambient_noise(source)
+
+        kb.add_hotkey(self.strat_key, self.listen)
+
+        print("Ready")
+
+        self.status.setStatus(Status.IDLE)
+
+    def execute_stratagem(self, stratagem):
+        self.status.setStatus(Status.EXECUTING)
+        config = self.config
+        self.myprint("Executing {0}.".format(stratagem["name"]))
+        for key in stratagem["code"]:
+            if key == "U":
+                kb.send(config["keys"]["up"])
+            elif key == "D":
+                kb.send(config["keys"]["down"])
+            elif key == "L":
+                kb.send(config["keys"]["left"])
             else:
-                print("{0} was not a valid stratagem.".format(command))
-
-        except sr.UnknownValueError:
-            print("Could not understand audio.")
-        except sr.RequestError as e:
-            print("Could not decode, recieved error: {0}".format(e))
+                kb.send(config["keys"]["right"])
         
-        if not kb.is_pressed(strat_key):    # Break if strategem key no longer held
-            print("Stratagem key not pressed, listening stopped.")
-            break
+            # Ignore on last?
+            time.sleep(config["dialling-speed"])
 
-kb.add_hotkey(strat_key, listen)
-print("Ready")
 
-kb.wait(config["keys"]["exit"])
-print("Exiting")
+    def interpret_stratagem(self, command):
+        command = format_command(command)
+
+        for stratagem in self.stratagems:
+            if not stratagem["enabled"]:
+                continue
+
+            # Could be accomplished using a trigger map
+            # Has not been done in yaml file for readability
+            for trigger in stratagem["trigger"]:
+                if command == format_command(trigger):
+                    self.myprint("Found match: {0}".format(stratagem["name"]))
+                    self.execute_stratagem(stratagem)
+                    return True
+        return False
+
+    def listen(self):
+        recog = self.recog
+        status = self.status
+
+        while True:
+            status.setStatus(Status.LISTENING)
+            self.myprint("Listening...")
+            with self.mic as source:
+                audio = recog.listen(source)
+    
+            self.myprint("Input recieved, converting... ")
+            status.setStatus(Status.PROCESSING)
+            try:
+                command = recog.recognize_google(audio)
+                self.myprint("Heard: {0}".format(command))
+
+                if self.interpret_stratagem(command):
+                    break
+                else:
+                    self.myprint("{0} was not a valid stratagem.".format(command))
+
+            except sr.UnknownValueError:
+                self.myprint("Could not understand audio.")
+            except sr.RequestError as e:
+                self.myprint("Could not decode, recieved error: {0}".format(e))
+        
+            if not kb.is_pressed(self.strat_key):    # Break if strategem key no longer held
+                self.myprint("Stratagem key not pressed, listening stopped.")
+                break
+        
+        status.setStatus(Status.IDLE)
+    
+    def myprint(self, text: str):
+        self.outbox.insertPlainText(text + "\n")
+    
+    def exec(self, stratagem_file, config_file):
+        self.app.exec_()
+
+
+
+
+app = QApplication(sys.argv)
+window = hdvs()
+window.show()
+
+app.exec_()
