@@ -2,10 +2,14 @@ import sys
 from PyQt5.QtWidgets import QWidget
 
 import speech_recognition as sr
+
 import keyboard as kb
 import yaml
 import time
 import enum
+import re
+from num2words import num2words
+import syllables
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
@@ -21,7 +25,10 @@ class Status(enum.Enum):
     EXECUTING = { "colour" : Qt.green, "text" : "Executing!" }
 
 def format_command(command):
-    return command.replace("-", " ").lower()
+    res = command.replace("-", " ").lower()
+    res = re.sub(r"(\d+)", lambda x: num2words(int(x.group(0))), res)
+
+    return re.sub(r'[^\w\s]', '', res).strip()
 
 class StatusGroup(QGroupBox):
     def __init__(self, parent=None):
@@ -111,6 +118,7 @@ class StratagemGroup(QGroupBox):
         super(QGroupBox, self).__init__(parent)
         self.setTitle("Stratagems")
         self.stratagems = stratagems
+        self.updateKeywords()
 
         scroll_layout = QVBoxLayout()
         for stratagem in stratagems:
@@ -122,17 +130,29 @@ class StratagemGroup(QGroupBox):
         scrollArea = QScrollArea()
         scrollArea.setWidget(sw)
 
-        save = QPushButton("Save")
-        save.pressed.connect(self.save)
+        apply = QPushButton("Apply")
+        apply.pressed.connect(self.apply)
 
         layout = QVBoxLayout()
         layout.addWidget(scrollArea)
-        layout.addWidget(save)
+        layout.addWidget(apply)
         self.setLayout(layout)
     
-    def save(self):
+    def apply(self):
         with open("stratagem.yml", 'w') as file:
             yaml.dump(self.stratagems, file)
+    
+    def updateKeywords(self):
+
+        self.keyWords = []
+
+        for stratagem in self.stratagems:
+            triggers = stratagem["trigger"]
+            for i in range(len(triggers)):
+                triggers[i] = format_command(triggers[i])
+                sylnum = syllables.estimate(triggers[i])
+
+                self.keyWords.append((triggers[i], 1 - (pow(sylnum + 1, -1) / 16)))
 
 
 class hdvs(QMainWindow):
@@ -224,7 +244,7 @@ class hdvs(QMainWindow):
         self.status.print("Input recieved, converting... ")
         status.setStatus(Status.PROCESSING)
         try:
-            command = recog.recognize_sphinx(audio)
+            command = recog.recognize_sphinx(audio, keyword_entries=self.stratagemopts.keyWords)
             self.status.print("Heard: {0}".format(command))
 
             if self.interpret_stratagem(command):
