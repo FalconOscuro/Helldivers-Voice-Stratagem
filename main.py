@@ -57,17 +57,21 @@ class StratagemOpt(QWidget):
         toggle.setChecked(stratagem["enabled"])
         toggle.toggled.connect(self.changeEnabled)
 
-        triggers = QLabel(", ".join(stratagem["trigger"]))
-        triggers.setWordWrap(True)
+        self.triggers = QLabel()
+        self.triggers.setWordWrap(True)
+        self.setTriggers()
 
         layout = QVBoxLayout()
         layout.addWidget(name)
-        layout.addWidget(triggers)
+        layout.addWidget(self.triggers)
         layout.addWidget(toggle)
         self.setLayout(layout)
     
     def changeEnabled(self, enabled: bool):
         self.stratagem["enabled"] = enabled
+    
+    def setTriggers(self):
+        self.triggers.setText(", ".join(self.stratagem["trigger"]))
 
 
 class StratagemGroup(QGroupBox):
@@ -179,7 +183,7 @@ class hdvs(QMainWindow):
         self.status.print("Input recieved, converting... ")
         status.setStatus(Status.PROCESSING)
         try:
-            command = recog.recognize_google(audio)
+            command = recog.recognize_sphinx(audio)
             self.status.print("Heard: {0}".format(command))
 
             if self.interpret_stratagem(command):
