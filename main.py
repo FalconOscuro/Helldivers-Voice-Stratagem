@@ -11,6 +11,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette, QIcon
 
+icon_path = "Icon.webp"
+
 # status enum
 class Status(enum.Enum):
     IDLE = { "colour" : Qt.black, "text" : "Idle" }
@@ -59,19 +61,49 @@ class StratagemOpt(QWidget):
 
         self.triggers = QLabel()
         self.triggers.setWordWrap(True)
-        self.setTriggers()
+        self.updateTriggers()
+
+        add = QPushButton("Add")
+        add.pressed.connect(self.addTrigger)
+
+        remove = QPushButton("Remove")
+        remove.pressed.connect(self.removeTrigger)
+
+        buttonLayout = QHBoxLayout()
+        buttonLayout.addWidget(add)
+        buttonLayout.addWidget(remove)
+        buttons = QWidget()
+        buttons.setLayout(buttonLayout)
 
         layout = QVBoxLayout()
         layout.addWidget(name)
         layout.addWidget(self.triggers)
+        layout.addWidget(buttons)
         layout.addWidget(toggle)
         self.setLayout(layout)
     
     def changeEnabled(self, enabled: bool):
         self.stratagem["enabled"] = enabled
     
-    def setTriggers(self):
-        self.triggers.setText(", ".join(self.stratagem["trigger"]))
+    def updateTriggers(self):
+        self.triggers.setText("triggers: " + ", ".join(self.stratagem["trigger"]))
+    
+    def addTrigger(self):
+        text, ok = QInputDialog.getText(self, "Add {0}".format(self.stratagem["name"]), "Add trigger:")
+
+        if ok and not text in self.stratagem["trigger"] and text != "":
+            self.stratagem["trigger"].append(text)
+            self.updateTriggers()
+
+
+    def removeTrigger(self):
+        text, ok = QInputDialog.getText(self, "Remove {0}".format(self.stratagem["name"]), "Remove trigger:")
+
+        if ok and text in self.stratagem["trigger"]:
+            self.stratagem["trigger"].remove(text)
+            self.updateTriggers()
+        
+
 
 
 class StratagemGroup(QGroupBox):
@@ -90,16 +122,25 @@ class StratagemGroup(QGroupBox):
         scrollArea = QScrollArea()
         scrollArea.setWidget(sw)
 
+        save = QPushButton("Save")
+        save.pressed.connect(self.save)
+
         layout = QVBoxLayout()
         layout.addWidget(scrollArea)
+        layout.addWidget(save)
         self.setLayout(layout)
+    
+    def save(self):
+        with open("stratagem.yml", 'w') as file:
+            yaml.dump(self.stratagems, file)
+
 
 class hdvs(QMainWindow):
     def __init__(self, parent=None):
         super(QMainWindow, self).__init__(parent)
 
         self.setWindowTitle("Helldivers Voice Stratagem")
-        self.setWindowIcon(QIcon("Icon.webp"))
+        self.setWindowIcon(QIcon(icon_path))
 
         print("Starting stratagem recogition")
         print("SpeechRecognition Version: {0}".format(sr.__version__))

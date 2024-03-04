@@ -8,7 +8,7 @@
 
 - name: Resupply
   trigger: [ resupply ]
-  code: [ D, D, U R ]
+  code: [ D, D, U, R ]
   type: [ special, hellpod ]
   enabled: True
 
@@ -314,12 +314,6 @@
 
 - name: A/MLS-4X Rocket Sentry
   trigger: [ rocket pod sentry ]
-  code: [] # CODE UNKOWN
-  type: [ defensive, hellpod, sentry, explosive ]
-  enabled: True
-
-- name: A/M-23 EMS Mortar Sentry
-  trigger: [ mortar sentry ems ]
   code: [] # CODE UNKOWN
   type: [ defensive, hellpod, sentry, explosive ]
   enabled: True
