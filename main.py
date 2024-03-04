@@ -131,6 +131,8 @@ class hdvs(QMainWindow):
         self.setCentralWidget(main)
         self.status.setStatus(Status.IDLE)
 
+        self.active = False
+
     def execute_stratagem(self, stratagem):
         self.status.setStatus(Status.EXECUTING)
         config = self.config
@@ -169,31 +171,28 @@ class hdvs(QMainWindow):
         recog = self.recog
         status = self.status
 
-        while True:
-            status.setStatus(Status.LISTENING)
-            self.status.print("Listening...")
-            with self.mic as source:
-                audio = recog.listen(source)
+        status.setStatus(Status.LISTENING)
+        self.status.print("Listening...")
+        with self.mic as source:
+            audio = recog.listen(source)
 
-            self.status.print("Input recieved, converting... ")
-            status.setStatus(Status.PROCESSING)
-            try:
-                command = recog.recognize_google(audio)
-                self.status.print("Heard: {0}".format(command))
+        self.status.print("Input recieved, converting... ")
+        status.setStatus(Status.PROCESSING)
+        try:
+            command = recog.recognize_google(audio)
+            self.status.print("Heard: {0}".format(command))
 
-                if self.interpret_stratagem(command):
-                    break
-                else:
-                    self.status.print("{0} was not a valid stratagem.".format(command))
+            if self.interpret_stratagem(command):
+                while kb.is_pressed(self.strat_key):
+                    time.sleep(1)           # I don't like this but keyboard module cannot properly detect KEY_UP events & without this hotkey will keep triggering
+                
+            else:
+                self.status.print("{0} was not a valid stratagem.".format(command))
 
-            except sr.UnknownValueError:
-                self.status.print("Could not understand audio.")
-            except sr.RequestError as e:
-                self.status.print("Could not decode, recieved error: {0}".format(e))
-
-            if not kb.is_pressed(self.strat_key):    # Break if strategem key no longer held
-                self.status.print("Stratagem key not pressed, listening stopped.")
-                break
+        except sr.UnknownValueError:
+            self.status.print("Could not understand audio.")
+        except sr.RequestError as e:
+            self.status.print("Could not decode, recieved error: {0}".format(e))
 
         status.setStatus(Status.IDLE)
     
