@@ -1,0 +1,5 @@
+keyboard==0.13.5
+PyYAML==6.0.1
+PyYAML==6.0.1
+SpeechRecognition==3.10.1
+PyAudio==0.2.14
