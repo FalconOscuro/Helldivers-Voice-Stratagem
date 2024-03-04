@@ -9,7 +9,7 @@ import enum
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPalette
+from PyQt5.QtGui import QPalette, QIcon
 
 # status enum
 class Status(enum.Enum):
@@ -57,8 +57,12 @@ class StratagemOpt(QWidget):
         toggle.setChecked(stratagem["enabled"])
         toggle.toggled.connect(self.changeEnabled)
 
+        triggers = QLabel(", ".join(stratagem["trigger"]))
+        triggers.setWordWrap(True)
+
         layout = QVBoxLayout()
         layout.addWidget(name)
+        layout.addWidget(triggers)
         layout.addWidget(toggle)
         self.setLayout(layout)
     
@@ -90,6 +94,9 @@ class hdvs(QMainWindow):
     def __init__(self, parent=None):
         super(QMainWindow, self).__init__(parent)
 
+        self.setWindowTitle("Helldivers Voice Stratagem")
+        self.setWindowIcon(QIcon("Icon.webp"))
+
         print("Starting stratagem recogition")
         print("SpeechRecognition Version: {0}".format(sr.__version__))
 
@@ -111,8 +118,6 @@ class hdvs(QMainWindow):
         kb.add_hotkey(self.strat_key, self.listen)
 
         print("Ready")
-
-        self.setWindowTitle("Helldivers Voice Stratagem")
 
         self.status = StatusGroup()
         self.stratagemopts = StratagemGroup(self.stratagems)
