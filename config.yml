@@ -1,0 +1,9 @@
+keys:
+  up: up
+  down: down
+  left: left
+  right: right
+  stratagem: ctrl
+  exit: esc
+
+dialling-speed: 0
