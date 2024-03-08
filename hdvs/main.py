@@ -10,8 +10,8 @@ with open("stratagem.yml", 'r') as file:
 with open("config.yml", 'r') as file:
     config = yaml.safe_load(file)
 
-app = QApplication(sys.argv)
+qapp = QApplication(sys.argv)
 hdvs = app.hdvs(stratagems, config)
 hdvs.show()
 
-app.exec_()
+qapp.exec_()

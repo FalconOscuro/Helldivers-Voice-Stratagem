@@ -4,10 +4,9 @@ from PyQt5.QtGui import QIcon
 import speech_recognition as sr
 import keyboard as kb
 
-import yaml
 import time
 
-from hdvs.core import *
+from core import *
 
 class hdvs(QMainWindow):
     def __init__(self, stratagems, config, parent=None):
