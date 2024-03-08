@@ -77,7 +77,7 @@
 
 - name: FAF-14 Spear
   trigger: [ spear ]
-  code: [] # CODE UNKNOWN
+  code: [ D, D, U, D, D ]
   type: [ supply, support weapon, hellpod ]
   enabled: True
 
@@ -110,19 +110,19 @@
 
 - name: Orbital Walking Barrage
   trigger: [ orbital walking barrage ]
-  code: [] # CODE UNKOWN
+  code: [ R, D, R, D, R, D ]
   type: [ offensive, explosive, orbital ]
   enabled: True
 
 - name: Orbital Laser
   trigger: [ orbital laser ]
-  code: [] # CODE UNKOWN
+  code: [ R, D, U, R, D ]
   type: [ offensive, orbital ]
   enabled: True
 
 - name: Orbital Railcannon Strike
   trigger: [ orbital rail cannon strike ]
-  code: [] # CODE UNKOWN
+  code: [ R, U, D, D, R ]
   type: [ offensive, orbital ]
   enabled: True
 
@@ -137,7 +137,7 @@
 
 - name: Eagle Airstrike
   trigger: [ eagle airstrike, airstrike ]
-  code: [] # CODE UNKOWN
+  code: [ U, R, D, R ]
   type: [ offensive, eagle, explosive ]
   enabled: True
 
@@ -161,13 +161,13 @@
 
 - name: Eagle Smoke Strike
   trigger: [ eagle smoke strike ]
-  code: [] # CODE UNKOWN
+  code: [ U, R, U, D ]
   type: [ offensive, eagle, explosive ]
   enabled: True
 
 - name: Eagle 110mm Rocket Pods
   trigger: [ eagle rocket pods, rocket pods ]
-  code: [] # CODE UNKOWN
+  code: [ U, R, U, D ]
   type: [ offensive, eagle, explosive ]
   enabled: True
 
@@ -188,37 +188,37 @@
 
 - name: Oribtal Gas Strike
   trigger: [ orbital gas strike ]
-  code: [] # CODE UNKOWN
+  code: [ R, R, D, R ]
   type: [ offensive, explosive, orbital ]
   enabled: True
 
 - name: Orbital EMS Strike
   trigger: [ orbital ems strike ]
-  code: [] # CODE UNKOWN
+  code: [ R, R, L, D ]
   type: [ offensive, orbital ]
   enabled: True
 
 - name: Orbital Smoke Strike
   trigger: [ orbital smoke strike ]
-  code: [] # CODE UNKOWN
+  code: [ R, R, D, U ]
   type: [ offensive, explosive, orbital ]
   enabled: True
 
 - name: E/MG-101 HMG Emplacement
   trigger: [ hmg emplacement ]
-  code: [] # CODE UNKOWN
+  code: [ D, U, L, R, R, L ]
   type: [ defensive. hellpod ]
   enabled: True
 
 - name: FX-12 Shield Generator Relay
   trigger: [ shield generator relay ]
-  code: [] # CODE UNKOWN
+  code: [ D, D, L, R, L, R ]
   type: [ defensive. hellpod ]
   enabled: True
 
 - name: A/ARC-3 Tesla Tower
   trigger: [ tesla tower ]
-  code: [] # CODE UNKOWN
+  code: [ D, U, R, U, L, R ]
   type: [ defensive. hellpod, sentry ]
   enabled: True
 
@@ -245,13 +245,13 @@
 
 - name: LAS-98 Laser Cannon
   trigger: [ laser cannon ]
-  code: [] # CODE UNKOWN
+  code: [ D, R, D, U, R ]
   type: [ supply, support weapon, hellpod ]
   enabled: True
 
 - name: MD-14 Incendiary Mines
   trigger: [ incendiary mines ]
-  code: [] # CODE UNKOWN
+  code: [ D, L, L, D ]
   type: [ defensive. hellpod, explosive ]
   enabled: True
 
@@ -263,19 +263,19 @@
 
 - name: SH-20 Ballistic Shield Backpack
   trigger: [ shield backpack ]
-  code: [] # CODE UNKOWN
+  code: [ D, R, D, D, U, L ]
   type: [ supply, hellpod, backpack ]
   enabled: True
 
 - name: ARC-3 Arc Thrower
   trigger: [ arc thrower ]
-  code: [] # CODE UNKOWN
+  code: [ D, R, D, U, L, L ]
   type: [ supply, support weapon, hellpod ]
   enabled: True
 
 - name: SH-32 Shield Generator Backpack
   trigger: [ shield generator backpack ]
-  code: [] # CODE UNKOWN
+  code: [ D, U, L, R, L, R ]
   type: [ supply, hellpod, backpack ]
   enabled: True
 
@@ -284,36 +284,36 @@
 
 - name: A/MG-43 Machine Gun Sentry
   trigger: [ machine gun sentry ]
-  code: [] # CODE UNKOWN
+  code: [ D, U, R, R, U ]
   type: [ defensive, hellpod, sentry ]
   enabled: True
 
 - name: A/G-16 Gatling Sentry
   trigger: [ gatling gun sentry ]
-  code: [] # CODE UNKOWN
+  code: [ D, U, L, R ]
   type: [ defensive, hellpod, sentry ]
   enabled: True
 
 - name: A/M-12 Mortar Sentry
   trigger: [ mortar sentry ]
-  code: [] # CODE UNKOWN
+  code: [ D, U, R, R, D ]
   type: [ defensive, hellpod, sentry, explosive ]
   enabled: True
 
 - name: AX/AR-23 "Guard Dog"
   trigger: [ guard dog ]
-  code: [] # CODE UNKOWN
+  code: [ D, U, L, U, R, D ]
   type: [ supply, hellpod, backpack ]
   enabled: True
 
 - name: A/AC-8 Autocannon Sentry
   trigger: [ autocannon sentry ]
-  code: [] # CODE UNKOWN
+  code: [ D, U, R, U, L, U ]
   type: [ defensive, hellpod, sentry, explosive ]
   enabled: True
 
 - name: A/MLS-4X Rocket Sentry
   trigger: [ rocket pod sentry ]
-  code: [] # CODE UNKOWN
+  code: [ D, U, R, R, L ]
   type: [ defensive, hellpod, sentry, explosive ]
   enabled: True
