@@ -24,6 +24,37 @@
   type: [ special, hellpod ]
   enabled: True
 
+- name: SSSD Delivery
+  trigger: [ s s d ]
+  code: [ D, D, D, U, U ]
+  type: [ special, hellpod ]
+  enabled: True
+
+- name: Seismic Probe
+  trigger: [ probe ]
+  code: [ U, U, L, R, D, D ]
+  type: [ special ]
+  enabled: True
+
+- name: Upload Data
+  trigger: [ upload ]
+  code: [ D, D, U, U, U ]
+  type: [ special ]
+  enabled: True
+
+- name: Eagle Rearm
+  trigger: [ rearm ]
+  code: [ U, U, L, U, R ]
+  type: [ special, eagle ]
+  enabled: True
+
+# No idea what this one does, it was on the wiki
+- name: Illumination Flare
+  trigger: [ flare ]
+  code: [ R, R, L, L ]
+  type: [ special ]
+  enable: True
+
 
 # PATRIOTIC ADMINISTRATION CENTRE
 
