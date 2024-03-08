@@ -53,7 +53,7 @@
   trigger: [ flare ]
   code: [ R, R, L, L ]
   type: [ special ]
-  enable: True
+  enabled: True
 
 
 # PATRIOTIC ADMINISTRATION CENTRE
