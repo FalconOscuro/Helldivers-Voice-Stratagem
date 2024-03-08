@@ -21,6 +21,8 @@ I would reccomend setting up a [python virtual environment](https://docs.python.
 
 # Usage
 
+The program can be run with the command `python ./hdvs/main.py` from within the project root directory. If run in place it will be unable to find the configuration files.
+
 Once running the tool will await for the *stratagem key* to be pressed, and so long as it is held, it will listen until a stratagem trigger word is heard.
 Once a trigger is identified the stratagem code is dialled and hopefully you ended up with the correct one.
 
