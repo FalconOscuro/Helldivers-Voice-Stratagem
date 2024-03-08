@@ -4,6 +4,7 @@ from yaml import dump
 from num2words import num2words
 import syllables
 import re
+from util import CollapsibleBox
 
 def format_command(command):
     res = command.replace("-", " ").lower()
@@ -11,12 +12,11 @@ def format_command(command):
 
     return re.sub(r'[^\w\s]', '', res).strip()
 
-class StratagemOpt(QWidget):
+class StratagemOpt(CollapsibleBox):
     def __init__(self, stratagem, parent=None):
-        super(QWidget, self).__init__(parent)
+        super(StratagemOpt, self).__init__(stratagem["name"], parent)
 
         self.stratagem = stratagem
-        name = QLabel(stratagem["name"])
 
         toggle = QCheckBox("Enabled")
         toggle.setChecked(stratagem["enabled"])
@@ -39,11 +39,10 @@ class StratagemOpt(QWidget):
         buttons.setLayout(buttonLayout)
 
         layout = QVBoxLayout()
-        layout.addWidget(name)
         layout.addWidget(self.triggers)
         layout.addWidget(buttons)
         layout.addWidget(toggle)
-        self.setLayout(layout)
+        self.setContentLayout(layout)
     
     def changeEnabled(self, enabled: bool):
         self.stratagem["enabled"] = enabled
@@ -81,6 +80,7 @@ class StratagemGroup(QGroupBox):
         sw.setLayout(scroll_layout)
 
         scrollArea = QScrollArea()
+        scrollArea.setWidgetResizable(True)
         scrollArea.setWidget(sw)
 
         apply = QPushButton("Apply")

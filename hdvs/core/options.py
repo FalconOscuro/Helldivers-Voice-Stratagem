@@ -11,8 +11,7 @@ class KeyOpt(QWidget):
         self.onChange = []
 
         self.info = QLabel()
-        self.btn = QPushButton()
-        self.btn.setText("Remap")
+        self.btn = QPushButton("Remap")
         self.btn.pressed.connect(self.Remap)
 
         layout = QHBoxLayout()
