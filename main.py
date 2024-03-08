@@ -209,9 +209,11 @@ class hdvs(QMainWindow):
                 kb.send(config["keys"]["down"])
             elif key == "L":
                 kb.send(config["keys"]["left"])
-            else:
+            elif key == "R":
                 kb.send(config["keys"]["right"])
-        
+            else:
+                self.status.print("Warning: '{0}' is not a valid code symbol. Please check stratagem.yml.".format(key))
+
             # Ignore on last?
             time.sleep(config["dialling-speed"])
 
