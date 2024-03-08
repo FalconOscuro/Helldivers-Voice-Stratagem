@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QHBoxLayout, QWidget
+from PyQt5.QtWidgets import QMainWindow, QHBoxLayout, QVBoxLayout, QWidget
 from PyQt5.QtGui import QIcon
 
 import speech_recognition as sr
@@ -29,16 +29,22 @@ class hdvs(QMainWindow):
         with self.mic as source:
             self.recog.adjust_for_ambient_noise(source)
 
-        kb.add_hotkey(self.strat_key, self.listen)
-
         print("Ready")
 
         self.status = StatusWidg()
         self.stratagemopts = StratagemGroup(self.stratagems)
+        self.options = Options(self.config, self.listen)
+
+        rhsLayout = QVBoxLayout()
+        rhsLayout.addWidget(self.status)
+        rhsLayout.addWidget(self.options)
+
+        rhs = QWidget()
+        rhs.setLayout(rhsLayout)
 
         mainLayout = QHBoxLayout()
         mainLayout.addWidget(self.stratagemopts)
-        mainLayout.addWidget(self.status)
+        mainLayout.addWidget(rhs)
 
         main = QWidget()
         main.setLayout(mainLayout)
