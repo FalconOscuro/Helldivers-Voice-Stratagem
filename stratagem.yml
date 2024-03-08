@@ -18,7 +18,7 @@
   type: [ special, hellpod, explosive ]
   enabled: True
 
-- name: Emergency Beacon
+- name: SOS Beacon
   trigger: [ s o s, emergency beacon ]
   code: [ U, D, R, U ]
   type: [ special, hellpod ]
@@ -41,24 +41,19 @@
   code: [ D, D, U, U, U ]
   type: [ special ]
   enabled: True
+  icon: SSSD
 
 - name: Eagle Rearm
   trigger: [ rearm ]
   code: [ U, U, L, U, R ]
   type: [ special, eagle ]
   enabled: True
-
-# No idea what this one does, it was on the wiki
-- name: Illumination Flare
-  trigger: [ flare ]
-  code: [ R, R, L, L ]
-  type: [ special ]
-  enabled: True
+  icon: Eagle-Rearm
 
 
 # PATRIOTIC ADMINISTRATION CENTRE
 
-- name: MG-94 Machine Gun
+- name: MG-43 Machine Gun
   trigger: [ machine gun ]
   code: [ D, L, D, U, R ]
   type: [ supply, support weapon, hellpod ]
@@ -120,42 +115,49 @@
   code: [ R, D, L, U, U ]
   type: [ offensive, explosive, orbital ]
   enabled: True
+  icon: Orbital-Gatling
 
 - name: Orbital Airburst Strike
   trigger: [ orbital air burst strike ]
   code: [ R, R, R ]
   type: [ offensive, explosive, orbital ]
   enabled: True
+  icon: Orbital-Airburst
 
 - name: Orbital 120mm HE Barrage
   trigger: [ orbital 120 millimeter h e barrage ]
   code: [ R, D, L, R, D ]
   type: [ offensive, explosive, orbital ]
   enabled: True
+  icon: Orbital-120
 
 - name: Orbital 380mm HE Barrage
   trigger: [ orbital 380 millimeter h e barrage ]
   code: [ R, D, U, U, L, D, D ]
   type: [ offensive, explosive, orbital ]
   enabled: True
+  icon: Orbital-380
 
 - name: Orbital Walking Barrage
   trigger: [ orbital walking barrage ]
   code: [ R, D, R, D, R, D ]
   type: [ offensive, explosive, orbital ]
   enabled: True
+  icon: Orbital-Walking
 
 - name: Orbital Laser
   trigger: [ orbital laser ]
   code: [ R, D, U, R, D ]
   type: [ offensive, orbital ]
   enabled: True
+  icon: Orbital-Laser
 
 - name: Orbital Railcannon Strike
   trigger: [ orbital rail cannon strike ]
   code: [ R, U, D, D, R ]
   type: [ offensive, orbital ]
   enabled: True
+  icon: Orbital-Railcannon
 
 
 # HANGAR
@@ -165,26 +167,30 @@
   code: [ U, R, R ]
   type: [ offensive, eagle ]
   enabled: True
+  icon: Eagle-Strafing
 
 - name: Eagle Airstrike
   trigger: [ eagle airstrike, airstrike ]
   code: [ U, R, D, R ]
   type: [ offensive, eagle, explosive ]
   enabled: True
+  icon: Eagle-Airstrike
 
 - name: Eagle Cluster Bomb
   trigger: [ eagle cluster bomb, cluster bomb ]
   code: [ U, R, D, D, R ]
   type: [ offensive, eagle, explosive ]
   enabled: True
+  icon: Eagle-Cluster
 
 - name: Eagle Napalm Strike
   trigger: [ eagle napalm strike, napalm strike ]
   code: [ U, R, D, U ]
   type: [ offensive, eagle, explosive ]
   enabled: True
+  icon: Eagle-Napalm
 
-- name: Lift-850 Jump Pack
+- name: LIFT-850 Jump Pack
   trigger: [ jump pack ]
   code: [ D, U, U, D, U ]
   type: [ supply, hellpod, backpack ]
@@ -195,18 +201,21 @@
   code: [ U, R, U, D ]
   type: [ offensive, eagle, explosive ]
   enabled: True
+  icon: Eagle-Smoke
 
 - name: Eagle 110mm Rocket Pods
   trigger: [ eagle rocket pods, rocket pods ]
   code: [ U, R, U, D ]
   type: [ offensive, eagle, explosive ]
   enabled: True
+  icon: Eagle-Rocket
 
 - name: Eagle 500kg Bomb
   trigger: [ eagle 500 kg bomb, 500 kg bomb ]
   code: [ U, R, D, D, D ]
   type: [ offensive, eagle, explosive ]
   enabled: True
+  icon: Eagle-500
 
 
 # BRIDGE
@@ -216,24 +225,28 @@
   code: [ R, R, U ]
   type: [ offensive, explosive, orbital ]
   enabled: True
+  icon: Orbital-Precision
 
-- name: Oribtal Gas Strike
+- name: Orbital Gas Strike
   trigger: [ orbital gas strike ]
   code: [ R, R, D, R ]
   type: [ offensive, explosive, orbital ]
   enabled: True
+  icon: Orbital-Gas
 
 - name: Orbital EMS Strike
   trigger: [ orbital ems strike ]
   code: [ R, R, L, D ]
   type: [ offensive, orbital ]
   enabled: True
+  icon: Orbital-EMS
 
 - name: Orbital Smoke Strike
   trigger: [ orbital smoke strike ]
   code: [ R, R, D, U ]
   type: [ offensive, explosive, orbital ]
   enabled: True
+  icon: Orbital-Smoke
 
 - name: E/MG-101 HMG Emplacement
   trigger: [ hmg emplacement ]

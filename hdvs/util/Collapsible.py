@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, QtGui
 
 # Sourced from: https://stackoverflow.com/a/52617714
 class CollapsibleBox(QtWidgets.QWidget):
@@ -15,6 +15,17 @@ class CollapsibleBox(QtWidgets.QWidget):
         self.toggle_button.setArrowType(QtCore.Qt.RightArrow)
         self.toggle_button.pressed.connect(self.on_pressed)
 
+        self.icon = QtWidgets.QLabel(self)
+        self.icon.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight)
+        
+        button_lay = QtWidgets.QHBoxLayout(self)
+        button_lay.setSpacing(0)
+        button_lay.setContentsMargins(0, 0, 0, 0)
+        button_lay.addWidget(self.toggle_button)
+        button_lay.addWidget(self.icon)
+        self.button_area = QtWidgets.QWidget(self)
+        self.button_area.setLayout(button_lay)
+
         self.toggle_animation = QtCore.QParallelAnimationGroup(self)
 
         self.content_area = QtWidgets.QScrollArea(
@@ -28,7 +39,7 @@ class CollapsibleBox(QtWidgets.QWidget):
         lay = QtWidgets.QVBoxLayout(self)
         lay.setSpacing(0)
         lay.setContentsMargins(0, 0, 0, 0)
-        lay.addWidget(self.toggle_button)
+        lay.addWidget(self.button_area)
         lay.addWidget(self.content_area)
 
         self.toggle_animation.addAnimation(
@@ -74,3 +85,6 @@ class CollapsibleBox(QtWidgets.QWidget):
         content_animation.setDuration(500)
         content_animation.setStartValue(0)
         content_animation.setEndValue(content_height)
+    
+    def setIcon(self, pixmap: QtGui.QPixmap):
+        self.icon.setPixmap(pixmap.scaledToHeight(int(self.icon.height() * .8)))

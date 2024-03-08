@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QCheckBox, QPushButton, QHBoxLayout, QVBoxLayout, QInputDialog, QGroupBox, QScrollArea
+from PyQt5.QtWidgets import QWidget, QLabel, QCheckBox, QPushButton, QHBoxLayout, QVBoxLayout, QInputDialog, QGroupBox, QScrollArea, QSizePolicy
+from PyQt5.QtGui import QPixmap
 
 from yaml import dump
 from num2words import num2words
@@ -17,12 +18,28 @@ class StratagemOpt(CollapsibleBox):
         super(StratagemOpt, self).__init__(stratagem["name"], parent)
 
         self.stratagem = stratagem
+        
+        iconSrc = ""
+
+        if "icon" in self.stratagem.keys():
+            iconSrc = self.stratagem["icon"]
+        
+        else:
+            iconSrc = self.stratagem["name"].split()[0].replace('/', '')
+        
+        pixmap = QPixmap("icons/{0}.webp".format(iconSrc))
+
+        if pixmap.isNull():
+            print("Error, could not load 'icons/{0}.webp'".format(iconSrc))
+            pixmap = QPixmap("icons/Icon.webp")
+        
+        self.setIcon(pixmap)
 
         toggle = QCheckBox("Enabled")
         toggle.setChecked(stratagem["enabled"])
         toggle.toggled.connect(self.changeEnabled)
 
-        self.triggers = QLabel()
+        self.triggers = QLabel(self)
         self.triggers.setWordWrap(True)
         self.updateTriggers()
 
@@ -35,7 +52,7 @@ class StratagemOpt(CollapsibleBox):
         buttonLayout = QHBoxLayout()
         buttonLayout.addWidget(add)
         buttonLayout.addWidget(remove)
-        buttons = QWidget()
+        buttons = QWidget(self)
         buttons.setLayout(buttonLayout)
 
         layout = QVBoxLayout()
@@ -72,21 +89,25 @@ class StratagemGroup(QGroupBox):
         self.stratagems = stratagems
         self.updateKeywords()
 
-        scroll_layout = QVBoxLayout()
+        self.stratagemopts = []
+
+        scroll_layout = QVBoxLayout(self)
         for stratagem in stratagems:
-            scroll_layout.addWidget(StratagemOpt(stratagem))
+            stratagemopt = StratagemOpt(stratagem, self)
+            self.stratagemopts.append(stratagemopt)
+            scroll_layout.addWidget(stratagemopt)
         
-        sw = QWidget()
+        sw = QWidget(self)
         sw.setLayout(scroll_layout)
 
-        scrollArea = QScrollArea()
+        scrollArea = QScrollArea(self)
         scrollArea.setWidgetResizable(True)
         scrollArea.setWidget(sw)
 
         apply = QPushButton("Apply")
         apply.pressed.connect(self.apply)
 
-        layout = QVBoxLayout()
+        layout = QVBoxLayout(self)
         layout.addWidget(scrollArea)
         layout.addWidget(apply)
         self.setLayout(layout)

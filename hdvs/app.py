@@ -13,7 +13,7 @@ class hdvs(QMainWindow):
         super(QMainWindow, self).__init__(parent)
 
         self.setWindowTitle("Helldivers Voice Stratagem")
-        self.setWindowIcon(QIcon("Icon.webp"))
+        self.setWindowIcon(QIcon("icons/Icon.webp"))
 
         print("Starting stratagem recogition")
         print("SpeechRecognition Version: {0}".format(sr.__version__))
