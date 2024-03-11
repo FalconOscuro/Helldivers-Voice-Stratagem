@@ -2,4 +2,4 @@ __pycache__/
 *.spec
 [Bb]uild/
 dist/
-env/
+.venv/
