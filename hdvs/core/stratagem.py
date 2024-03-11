@@ -5,7 +5,7 @@ from yaml import dump
 from num2words import num2words
 import syllables
 import re
-from util import CollapsibleBox
+from hdvs.util import CollapsibleBox
 
 def format_command(command):
     res = command.replace("-", " ").lower()
@@ -27,11 +27,11 @@ class StratagemOpt(CollapsibleBox):
         else:
             iconSrc = self.stratagem["name"].split()[0].replace('/', '')
         
-        pixmap = QPixmap("icons/{0}.webp".format(iconSrc))
+        pixmap = QPixmap("data/icons/{0}.webp".format(iconSrc))
 
         if pixmap.isNull():
             print("Error, could not load 'icons/{0}.webp'".format(iconSrc))
-            pixmap = QPixmap("icons/Icon.webp")
+            pixmap = QPixmap("data/icons/Icon.webp")
         
         self.setIcon(pixmap)
 

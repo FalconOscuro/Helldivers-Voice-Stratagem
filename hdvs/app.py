@@ -7,7 +7,7 @@ import keyboard as kb
 
 import time
 
-from core import *
+from hdvs.core import *
 
 class hdvs(QMainWindow):
     statusPrint = pyqtSignal(str)
@@ -17,7 +17,7 @@ class hdvs(QMainWindow):
         super(QMainWindow, self).__init__(parent)
 
         self.setWindowTitle("Helldivers Voice Stratagem")
-        self.setWindowIcon(QIcon("icons/Icon.webp"))
+        self.setWindowIcon(QIcon("data/icons/Icon.webp"))
 
         print("Starting stratagem recogition")
         print("SpeechRecognition Version: {0}".format(sr.__version__))
@@ -107,7 +107,7 @@ class hdvs(QMainWindow):
         self.sPrint("Input recieved, converting... ")
         self.changeStatus.emit(Status.PROCESSING)
         try:
-            command = recog.recognize_sphinx(audio, keyword_entries=self.stratagemopts.keyWords)
+            command = recog.recognize_sphinx(audio, keyword_entries=self.stratagemopts.keyWords,language=("data/pocketsphinx-data/en-US/acoustic-model", "data/pocketsphinx-data/en-US/language-model.lm.bin", "data/pocketsphinx-data/en-US/pronounciation-dictionary.dict") )
             self.sPrint("Heard: {0}".format(command))
 
             if self.interpret_stratagem(command):
