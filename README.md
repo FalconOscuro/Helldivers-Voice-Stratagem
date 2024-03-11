@@ -15,11 +15,21 @@ I made this as a bit of fun for my friends and, as such, it is intentionally jan
     - num2words (number conversion for recognition)
 - PyQt5 (UI)
 
-I would reccomend setting up a [python virtual environment](https://docs.python.org/3/library/venv.html) to install the required modules, which can be done using:
+# Usage
+
+## Automatic (Windows Only)
+
+First __ensure that you have python installed on your system__.
+
+Then the program can be run using the `run.bat` file.
+
+This will ensure a virtual environment is setup and active with all dependencies installed, then run the program.
+
+## Manual
+
+I would reccomend setting up a [python virtual environment](https://docs.python.org/3/library/venv.html) to install the required modules, which can then be done using:
 
 ```pip install -r requirements.txt```
-
-# Usage
 
 The program can be run with the command `python ./hdvs/main.py` from within the project root directory. If run in place it will be unable to find the configuration files.
 
