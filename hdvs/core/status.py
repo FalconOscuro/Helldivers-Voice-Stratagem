@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSlot
 from PyQt5.QtWidgets import QGroupBox, QLineEdit, QPlainTextEdit, QVBoxLayout
 from PyQt5.QtGui import QPalette
 
@@ -12,7 +12,7 @@ class Status(enum.Enum):
 
 class StatusWidg(QGroupBox):
     def __init__(self, parent=None):
-        super(QGroupBox, self).__init__(parent)
+        super(StatusWidg, self).__init__(parent)
         self.setTitle("Status")
 
         self.status = QLineEdit()
@@ -26,11 +26,13 @@ class StatusWidg(QGroupBox):
         layout.addWidget(self.outbox)
         self.setLayout(layout)
 
+    @pyqtSlot(Status)
     def setStatus(self, status: Status):
         palette = QPalette()
         palette.setColor(QPalette.Text, status.value["colour"])
         self.status.setPalette(palette)
         self.status.setText(status.value["text"])
     
+    @pyqtSlot(str)
     def print(self, text: str):
         self.outbox.insertPlainText(text + '\n')
