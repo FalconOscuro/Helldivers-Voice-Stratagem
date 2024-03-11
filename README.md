@@ -17,13 +17,8 @@ I made this as a bit of fun for my friends and, as such, it is intentionally jan
 
 # Usage
 
-## Automatic (Windows Only)
-
-First __ensure that you have python installed on your system__.
-
-Then the program can be run using the `run.bat` file.
-
-This will ensure a virtual environment is setup and active with all dependencies installed, then run the program.
+## Standalone
+A standalone exe is now available from the releases page!
 
 ## Manual
 
@@ -31,7 +26,7 @@ I would reccomend setting up a [python virtual environment](https://docs.python.
 
 ```pip install -r requirements.txt```
 
-The program can be run with the command `python ./hdvs/main.py` from within the project root directory. If run in place it will be unable to find the configuration files.
+The program can be run from the `main.py` file within the project root directory.
 
 Once running the tool will await for the *stratagem key* to be pressed, and so long as it is held, it will listen until a stratagem trigger word is heard.
 Once a trigger is identified the stratagem code is dialled and hopefully you ended up with the correct one.
