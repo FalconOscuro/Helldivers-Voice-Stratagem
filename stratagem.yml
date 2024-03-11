@@ -361,3 +361,9 @@
   code: [ D, U, R, R, L ]
   type: [ defensive, hellpod, sentry, explosive ]
   enabled: True
+
+- name: EXO-45 Patriot Exosuit
+  trigger: [ patriot ]
+  code: [ L, D, R, U, L, D, D ]
+  type: [ explosive, vehicle ]
+  enabled: True
