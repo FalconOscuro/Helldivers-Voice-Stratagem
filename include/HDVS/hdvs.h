@@ -10,6 +10,8 @@ public:
     hdvs(QWidget* parent = nullptr);
 
 private:
+
+    QIcon m_Icon;
 };
 
 }

@@ -25,6 +25,9 @@ add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PUBLIC
     ${SRC_DIR}/main.cpp
     ${SRC_DIR}/hdvs.cpp
+    ${SRC_DIR}/options.cpp
+    ${SRC_DIR}/status.cpp
+    ${SRC_DIR}/stratagem.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}
