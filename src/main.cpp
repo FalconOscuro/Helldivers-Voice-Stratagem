@@ -1,12 +1,11 @@
+#include "HDVS/mainwindow.h"
 #include "HDVS/hdvs.h"
-
-#include <QApplication>
 
 int main(int argc, char* argv[])
 {
-    QApplication app(argc, argv);
+    hdvs::hdvs app(argc, argv);
 
-    hdvs::hdvs window;
+    hdvs::MainWindow window;
     window.show();
 
     return app.exec();

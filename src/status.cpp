@@ -2,6 +2,7 @@
 
 #include <QColor>
 #include <QPalette>
+#include <QtWidgets>
 
 namespace hdvs {
 
@@ -56,7 +57,7 @@ void Status::SetPhase(Phase phase)
     m_PhaseDisplay.setText(msg);
 }
 
-void Status::Log(QString msg)
+void Status::ReceiveLog(const QString& msg)
 {
     m_Log.insertPlainText(msg + "\n");
     m_Log.ensureCursorVisible();

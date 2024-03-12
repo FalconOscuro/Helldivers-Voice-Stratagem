@@ -1,27 +1,21 @@
 #ifndef HDVS_H
 #define HDVS_H
 
-#include <QMainWindow>
-#include <QHBoxLayout>
-
-#include "status.h"
+#include <QApplication>
 
 namespace hdvs {
-class hdvs : public QMainWindow
+
+class hdvs : public QApplication
 {
+    Q_OBJECT
 public:
-    hdvs(QWidget* parent = nullptr);
+    explicit hdvs(int& argc, char* argv[]);
+
+protected:
 
 private:
-
-    QIcon m_Icon;
-
-    Status m_Status;
-
-    QWidget m_Main;
-    QHBoxLayout m_MainLayout;
 };
 
 }
 
-#endif
+#endif // HDVS_H

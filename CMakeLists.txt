@@ -11,29 +11,51 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORRC ON)
+set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 message(STATUS "Retrieving packages")
 
 find_package(Qt5 REQUIRED COMPONENTS Widgets Core Gui)
 
+include(FetchContent)
+
+FetchContent_Declare(
+    yaml-cpp
+    GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
+    GIT_TAG yaml-cpp-0.7.0
+)
+FetchContent_GetProperties(yaml-cpp)
+
+if(NOT yaml-cpp_POPULATED)
+    message(STATUS "Fetching yaml-cpp...")
+    FetchContent_Populate(yaml-cpp)
+    add_subdirectory(${yaml-cpp_SOURCE_DIR} ${yaml-cpp_BINARY_DIR})
+endif()
+
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(GUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ui)
+set(INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/HDVS)
 
 add_executable(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PUBLIC
     ${SRC_DIR}/main.cpp
+    ${SRC_DIR}/mainwindow.cpp
+    ${INC_DIR}/mainwindow.h
     ${SRC_DIR}/hdvs.cpp
+    ${INC_DIR}/hdvs.h
     ${SRC_DIR}/options.cpp
     ${SRC_DIR}/status.cpp
+    ${INC_DIR}/status.h
     ${SRC_DIR}/stratagem.cpp
 )
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt::Widgets
     Qt::Core
     Qt::Gui
+    yaml-cpp::yaml-cpp
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

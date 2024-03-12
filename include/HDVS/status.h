@@ -10,6 +10,8 @@ namespace hdvs {
 
 class Status : public QGroupBox
 {
+    Q_OBJECT
+
 public:
     Status(QWidget* parent = nullptr);
 
@@ -24,7 +26,7 @@ public:
 public slots:
 
     void SetPhase(Phase phase);
-    void Log(QString msg);
+    void ReceiveLog(const QString& msg);
 
 private:
 
