@@ -10,12 +10,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORRC ON)
+set(CMAKE_AUTOUIC ON)
+
 message(STATUS "Retrieving packages")
 
-find_package(wxWidgets REQUIRED COMPONENTS net core base)
-if (wxWidgets_USE_FILE) # not defined in config mode
-    include(${wxWidgets_USE_FILE})
-endif()
+find_package(Qt5 REQUIRED COMPONENTS Widgets Core Gui)
 
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
@@ -27,7 +28,9 @@ target_sources(${PROJECT_NAME} PUBLIC
 )
 
 target_link_libraries(${PROJECT_NAME}
-    ${wxWidgets_LIBRARIES}
+    Qt::Widgets
+    Qt::Core
+    Qt::Gui
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

@@ -1,16 +1,13 @@
 #include "HDVS/hdvs.h"
 
-#include <wx/wx.h>
+#include <QApplication>
 
-class MyApp : public wxApp
+int main(int argc, char* argv[])
 {
-public:
-    bool OnInit() override
-    {
-        hdvs::hdvs* frame = new hdvs::hdvs();
-        frame->Show(true);
-        return true;
-    }
-};
+    QApplication app(argc, argv);
 
-wxIMPLEMENT_APP(MyApp);
+    hdvs::hdvs window;
+    window.show();
+
+    return app.exec();
+}
