@@ -4,6 +4,7 @@
 #include <QGroupBox>
 #include <QLineEdit>
 #include <QPlainTextEdit>
+#include <QVBoxLayout>
 
 namespace hdvs {
 
@@ -23,12 +24,13 @@ public:
 public slots:
 
     void SetPhase(Phase phase);
-    void Log(std::string msg);
+    void Log(QString msg);
 
 private:
 
     QLineEdit m_PhaseDisplay;
     QPlainTextEdit m_Log;
+    QVBoxLayout m_Layout;
 };
 
 }

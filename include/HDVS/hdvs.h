@@ -2,6 +2,9 @@
 #define HDVS_H
 
 #include <QMainWindow>
+#include <QHBoxLayout>
+
+#include "status.h"
 
 namespace hdvs {
 class hdvs : public QMainWindow
@@ -12,6 +15,11 @@ public:
 private:
 
     QIcon m_Icon;
+
+    Status m_Status;
+
+    QWidget m_Main;
+    QHBoxLayout m_MainLayout;
 };
 
 }
