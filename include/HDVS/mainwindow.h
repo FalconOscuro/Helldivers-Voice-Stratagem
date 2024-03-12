@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 
 #include "status.h"
+#include "config.h"
 
 namespace Ui {
     class MainWindow;
@@ -16,24 +17,16 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit MainWindow(QWidget* parent = 0);
+    explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
 
-signals:
-    void SendLog(const QString& msg);
-
-protected:
-    void showEvent(QShowEvent* e) override;
-
-private slots:
-    void PostInit();
+    Status* GetStatus() const;
 
 private:
     Ui::MainWindow* m_ui;
+    QVBoxLayout* m_layout;
 
-    QWidget m_Main;
-    QVBoxLayout m_Layout;
-    Status m_Status;
+    Status* m_Status;
 };
 
 }

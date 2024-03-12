@@ -21,6 +21,7 @@ public:
         LISTENING,
         PROCESSING,
         EXECUTING,
+        ERROR,
     };
 
 public slots:

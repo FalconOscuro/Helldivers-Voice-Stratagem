@@ -1,19 +1,30 @@
 #ifndef HDVS_H
 #define HDVS_H
 
-#include <QApplication>
+#include <QObject>
+
+#include "config.h"
+#include "status.h"
 
 namespace hdvs {
 
-class hdvs : public QApplication
+class hdvs : public QObject
 {
     Q_OBJECT
 public:
-    explicit hdvs(int& argc, char* argv[]);
+    explicit hdvs(QObject* parent = nullptr);
+
+signals:
+    void SendLog(const QString& msg);
+    void PhaseChange(Status::Phase phase);
 
 protected:
 
+private slots:
+    void PostInit();
+
 private:
+    Config m_config;
 };
 
 }

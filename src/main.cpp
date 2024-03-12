@@ -1,12 +1,28 @@
 #include "HDVS/mainwindow.h"
 #include "HDVS/hdvs.h"
 
+#include <QApplication>
+#include <QThread>
+
 int main(int argc, char* argv[])
 {
-    hdvs::hdvs app(argc, argv);
+    QApplication app(argc, argv);
 
     hdvs::MainWindow window;
     window.show();
 
-    return app.exec();
+    QThread workerThread;
+    hdvs::hdvs* core = new hdvs::hdvs;
+    core->moveToThread(&workerThread);
+
+    QObject::connect(core, &hdvs::hdvs::SendLog, window.GetStatus(), &hdvs::Status::ReceiveLog);
+    QObject::connect(core, &hdvs::hdvs::PhaseChange, window.GetStatus(), &hdvs::Status::SetPhase);
+
+    workerThread.start();
+    int exitCode = app.exec();
+    workerThread.quit();
+    workerThread.wait();
+
+    delete core;
+    return exitCode;
 }

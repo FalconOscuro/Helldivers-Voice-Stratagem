@@ -40,13 +40,18 @@ void Status::SetPhase(Phase phase)
         break;
 
     case PROCESSING:
-        colour = QColor("Red");
+        colour = QColor("Grey");
         msg = "Processing...";
         break;
 
     case EXECUTING:
         colour = QColor("Green");
         msg = "Executing!";
+        break;
+
+    case ERROR:
+        colour = QColor("Red");
+        msg = "ERROR!";
         break;
     }
 

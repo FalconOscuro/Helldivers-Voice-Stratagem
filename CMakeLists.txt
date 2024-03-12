@@ -49,6 +49,7 @@ target_sources(${PROJECT_NAME} PUBLIC
     ${SRC_DIR}/status.cpp
     ${INC_DIR}/status.h
     ${SRC_DIR}/stratagem.cpp
+    ${SRC_DIR}/config.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
