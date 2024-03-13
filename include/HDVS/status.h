@@ -13,7 +13,8 @@ class Status : public QGroupBox
     Q_OBJECT
 
 public:
-    Status(QWidget* parent = nullptr);
+    explicit Status(QWidget* parent = nullptr);
+    ~Status() override;
 
     enum Phase
     {
@@ -31,9 +32,9 @@ public slots:
 
 private:
 
-    QLineEdit m_PhaseDisplay;
-    QPlainTextEdit m_Log;
-    QVBoxLayout m_Layout;
+    QLineEdit* m_phaseDisplay;
+    QPlainTextEdit* m_log;
+    QVBoxLayout* m_layout;
 };
 
 }

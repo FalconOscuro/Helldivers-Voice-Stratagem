@@ -7,19 +7,26 @@
 namespace hdvs {
 
 Status::Status(QWidget* parent):
-    QGroupBox("Status", parent),
-    m_PhaseDisplay(this),
-    m_Log(this),
-    m_Layout(this)
+    QGroupBox("Status", parent)
 {
-    m_PhaseDisplay.setReadOnly(true);
-    m_Log.setReadOnly(true);
+    m_phaseDisplay = new QLineEdit;
+    m_phaseDisplay->setReadOnly(true);
+
+    m_log = new QPlainTextEdit;
+    m_log->setReadOnly(true);
 
     SetPhase(Phase::IDLE);
 
-    m_Layout.addWidget(&m_PhaseDisplay);
-    m_Layout.addWidget(&m_Log);
-    setLayout(&m_Layout);
+    m_layout = new QVBoxLayout(this);
+    m_layout->addWidget(m_phaseDisplay);
+    m_layout->addWidget(m_log);
+}
+
+Status::~Status()
+{
+    delete m_phaseDisplay;
+    delete m_log;
+    delete m_layout;
 }
 
 void Status::SetPhase(Phase phase)
@@ -58,14 +65,14 @@ void Status::SetPhase(Phase phase)
     QPalette palette;
     palette.setColor(QPalette::Text, colour);
 
-    m_PhaseDisplay.setPalette(palette);
-    m_PhaseDisplay.setText(msg);
+    m_phaseDisplay->setPalette(palette);
+    m_phaseDisplay->setText(msg);
 }
 
 void Status::ReceiveLog(const QString& msg)
 {
-    m_Log.insertPlainText(msg + "\n");
-    m_Log.ensureCursorVisible();
+    m_log->insertPlainText(msg + "\n");
+    m_log->ensureCursorVisible();
 }
 
 }
