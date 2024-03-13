@@ -50,6 +50,8 @@ target_sources(${PROJECT_NAME} PUBLIC
     ${INC_DIR}/status.h
     ${SRC_DIR}/stratagem.cpp
     ${SRC_DIR}/config.cpp
+    ${SRC_DIR}/collapsible.cpp
+    ${INC_DIR}/collapsible.h
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
