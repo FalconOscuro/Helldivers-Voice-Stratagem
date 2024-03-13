@@ -16,6 +16,7 @@ class hdvs : public QObject
     Q_OBJECT
 public:
     explicit hdvs(QObject* parent = nullptr);
+    ~hdvs() override;
 
 signals:
     void SendLog(const QString& msg);

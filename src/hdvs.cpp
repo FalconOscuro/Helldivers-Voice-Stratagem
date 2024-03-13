@@ -15,6 +15,9 @@ hdvs::hdvs(QObject* parent):
     QTimer::singleShot(50, this, SLOT(PostInit()));
 }
 
+hdvs::~hdvs()
+{}
+
 void hdvs::PostInit()
 {
     LOG("Beginning startup");
