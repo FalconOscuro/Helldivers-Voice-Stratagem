@@ -6,27 +6,18 @@ StratPane::StratPane(QWidget* parent):
     QGroupBox(parent)
 {
     setTitle("Stratagems");
+
+    m_stratOpts = std::vector<collapsible::Box*>();
     
-    m_lay_scroll = new QVBoxLayout();
     QWidget* scrollContent = new QWidget;
-    scrollContent->setLayout(m_lay_scroll);
+    scrollContent->setLayout(new QVBoxLayout);
 
     m_scrollArea = new QScrollArea;
     m_scrollArea->setWidgetResizable(true);
     m_scrollArea->setWidget(scrollContent);
 
-    m_lay = new QVBoxLayout(this);
-    m_lay->addWidget(m_scrollArea);
-}
-
-StratPane::~StratPane()
-{
-    delete m_scrollArea;
-    delete m_lay_scroll;
-    delete m_lay;
-
-    for (size_t i = 0; i < m_stratOpts.size(); i++)
-        delete m_stratOpts[i];
+    QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->addWidget(m_scrollArea);
 }
 
 void StratPane::AddStratagem(const QVariant& var)
@@ -38,7 +29,7 @@ void StratPane::AddStratagem(const QVariant& var)
     collapsible::Box* stratOpt = new collapsible::Box(QString::fromStdString(strat.name));
     stratOpt->SetIcon(QPixmap("./data/icons/" + QString::fromStdString(strat.GetIconName())));
 
-    m_lay_scroll->addWidget(stratOpt);
+    m_scrollArea->widget()->layout()->addWidget(stratOpt);
     m_stratOpts.push_back(stratOpt);
 }
 

@@ -17,16 +17,9 @@ Status::Status(QWidget* parent):
 
     SetPhase(Phase::IDLE);
 
-    m_layout = new QVBoxLayout(this);
-    m_layout->addWidget(m_phaseDisplay);
-    m_layout->addWidget(m_log);
-}
-
-Status::~Status()
-{
-    delete m_phaseDisplay;
-    delete m_log;
-    delete m_layout;
+    QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->addWidget(m_phaseDisplay);
+    layout->addWidget(m_log);
 }
 
 void Status::SetPhase(Phase phase)
@@ -65,12 +58,14 @@ void Status::SetPhase(Phase phase)
     QPalette palette;
     palette.setColor(QPalette::Text, colour);
 
+    // TODO: use signals/slots
     m_phaseDisplay->setPalette(palette);
     m_phaseDisplay->setText(msg);
 }
 
 void Status::ReceiveLog(const QString& msg)
 {
+    // TODO: use signals/slots
     m_log->insertPlainText(msg + "\n");
     m_log->ensureCursorVisible();
 }

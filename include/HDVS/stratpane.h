@@ -17,7 +17,6 @@ class StratPane : public QGroupBox
     Q_OBJECT
 public:
     explicit StratPane(QWidget* parent = nullptr);
-    ~StratPane() override;
 
 public slots:
     void AddStratagem(const QVariant& strat);
@@ -25,9 +24,6 @@ public slots:
 private:
 
     QScrollArea* m_scrollArea;
-    QVBoxLayout* m_lay_scroll;
-
-    QVBoxLayout* m_lay;
 
     std::vector<collapsible::Box*> m_stratOpts;
 }; // class StratPane

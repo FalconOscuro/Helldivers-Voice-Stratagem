@@ -17,16 +17,14 @@ MainWindow::MainWindow(QWidget* parent):
     m_status = new Status;
     m_strats = new StratPane;
 
-    m_layout = new QHBoxLayout;
-    m_layout->addWidget(m_strats);
-    m_layout->addWidget(m_status);
-    centralWidget()->setLayout(m_layout);
+    delete centralWidget()->layout();
+    QHBoxLayout* layout = new QHBoxLayout(centralWidget());
+    layout->addWidget(m_strats);
+    layout->addWidget(m_status);
 }
 
 MainWindow::~MainWindow() {
     delete m_ui;
-    delete m_status;
-    delete m_strats;
 }
 
 Status* MainWindow::GetStatus() const {

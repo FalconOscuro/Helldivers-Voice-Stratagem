@@ -14,7 +14,6 @@ class Status : public QGroupBox
 
 public:
     explicit Status(QWidget* parent = nullptr);
-    ~Status() override;
 
     enum Phase
     {
@@ -34,9 +33,8 @@ private:
 
     QLineEdit* m_phaseDisplay;
     QPlainTextEdit* m_log;
-    QVBoxLayout* m_layout;
-};
+}; // class Status
 
-}
+} // namespace hdvs
 
 #endif

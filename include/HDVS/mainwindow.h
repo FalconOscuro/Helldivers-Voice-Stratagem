@@ -25,7 +25,6 @@ public:
 
 private:
     Ui::MainWindow* m_ui;
-    QHBoxLayout* m_layout;
 
     Status* m_status;
     StratPane* m_strats;
