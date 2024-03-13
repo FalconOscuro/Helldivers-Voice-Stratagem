@@ -34,6 +34,7 @@ void hdvs::PostInit()
     LOG("Loading stratagems...");
     try {
         YAML::Node stratagems = YAML::LoadFile("./data/stratagem.yml");
+        m_stratagems = stratagems.as<std::vector<Stratagem>>();
     }
     catch (std::runtime_error e) {
         LOG(QString("Error whilst loading './data/stratagem.yml': ") + e.what());

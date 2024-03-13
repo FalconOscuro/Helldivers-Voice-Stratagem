@@ -3,8 +3,11 @@
 
 #include <QObject>
 
+#include <vector>
+
 #include "config.h"
 #include "status.h"
+#include "stratagem.h"
 
 namespace hdvs {
 
@@ -25,6 +28,7 @@ private slots:
 
 private:
     Config m_config;
+    std::vector<Stratagem> m_stratagems;
 };
 
 }

@@ -86,4 +86,18 @@ bool convert<hdvs::Stratagem::Type>::decode(const Node& node, hdvs::Stratagem::T
     return true;
 }
 
+Node convert<hdvs::Stratagem::Direction>::encode(const hdvs::Stratagem::Direction& dir)
+{
+    return Node((char)dir);
+}
+
+bool convert<hdvs::Stratagem::Direction>::decode(const Node& node, hdvs::Stratagem::Direction& dir)
+{
+    if (!node.IsScalar())
+        return false;
+
+    dir = (hdvs::Stratagem::Direction)node.as<char>();
+    return true;
+}
+
 } // namespace YAML

@@ -59,15 +59,15 @@ struct convert<hdvs::Stratagem> {
 
 template<>
 struct convert<hdvs::Stratagem::Type> {
-    static Node encode(const hdvs::Stratagem::Type& strat);
-    static bool decode(const Node& node, hdvs::Stratagem::Type& strat);
+    static Node encode(const hdvs::Stratagem::Type& type);
+    static bool decode(const Node& node, hdvs::Stratagem::Type& type);
 }; // struct convert<hdvs::Stratagem::Type>
 
-//template<>
-//struct convert<hdvs::Stratagem::Direction> {
-//    static Node encode(const hdvs::Stratagem::Direction& strat);
-//    static bool decode(const Node& node, hdvs::Stratagem::Direction& strat);
-//}; // struct convert<hdvs::Stratagem::Direction>
+template<>
+struct convert<hdvs::Stratagem::Direction> {
+    static Node encode(const hdvs::Stratagem::Direction& dir);
+    static bool decode(const Node& node, hdvs::Stratagem::Direction& dir);
+}; // struct convert<hdvs::Stratagem::Direction>
 
 } // namespace YAML
 
