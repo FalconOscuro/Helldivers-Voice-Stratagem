@@ -2,10 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 #include "status.h"
-#include "config.h"
+#include "stratpane.h"
 
 namespace Ui {
     class MainWindow;
@@ -21,12 +21,14 @@ public:
     ~MainWindow() override;
 
     Status* GetStatus() const;
+    StratPane* GetStratPane() const;
 
 private:
     Ui::MainWindow* m_ui;
-    QVBoxLayout* m_layout;
+    QHBoxLayout* m_layout;
 
-    Status* m_Status;
+    Status* m_status;
+    StratPane* m_strats;
 };
 
 }

@@ -18,6 +18,8 @@ int main(int argc, char* argv[])
     QObject::connect(core, &hdvs::hdvs::SendLog, window.GetStatus(), &hdvs::Status::ReceiveLog);
     QObject::connect(core, &hdvs::hdvs::PhaseChange, window.GetStatus(), &hdvs::Status::SetPhase);
 
+    QObject::connect(core, &hdvs::hdvs::LoadStratagem, window.GetStratPane(), &hdvs::StratPane::AddStratagem);
+
     workerThread.start();
     int exitCode = app.exec();
     workerThread.quit();

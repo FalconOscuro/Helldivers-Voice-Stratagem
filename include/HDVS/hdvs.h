@@ -21,6 +21,8 @@ signals:
     void SendLog(const QString& msg);
     void PhaseChange(Status::Phase phase);
 
+    void LoadStratagem(const QVariant& strat);
+
 protected:
 
 private slots:

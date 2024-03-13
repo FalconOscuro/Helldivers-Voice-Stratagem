@@ -14,20 +14,27 @@ MainWindow::MainWindow(QWidget* parent):
     setWindowTitle("HDVS");
     setWindowIcon(QIcon("./data/icons/Icon.png"));
 
-    m_Status = new Status;
+    m_status = new Status;
+    m_strats = new StratPane;
 
-    m_layout = new QVBoxLayout;
-    m_layout->addWidget(m_Status);
+    m_layout = new QHBoxLayout;
+    m_layout->addWidget(m_strats);
+    m_layout->addWidget(m_status);
     centralWidget()->setLayout(m_layout);
 }
 
 MainWindow::~MainWindow() {
     delete m_ui;
-    delete m_Status;
+    delete m_status;
+    delete m_strats;
 }
 
 Status* MainWindow::GetStatus() const {
-    return m_Status;
+    return m_status;
+}
+
+StratPane* MainWindow::GetStratPane() const {
+    return m_strats;
 }
 
 }

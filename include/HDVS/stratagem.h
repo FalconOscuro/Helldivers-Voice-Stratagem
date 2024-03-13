@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <yaml-cpp/yaml.h>
+#include <QMetaType>
 
 namespace hdvs {
 
@@ -48,6 +49,8 @@ struct Stratagem
 }; // struct Stratagem
 
 } // namespace hdvs
+
+Q_DECLARE_METATYPE(hdvs::Stratagem)
 
 namespace YAML {
 

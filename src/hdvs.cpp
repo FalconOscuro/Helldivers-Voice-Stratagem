@@ -12,7 +12,7 @@ namespace hdvs {
 hdvs::hdvs(QObject* parent):
     QObject(parent)
 {
-    QTimer::singleShot(0, this, SLOT(PostInit()));
+    QTimer::singleShot(50, this, SLOT(PostInit()));
 }
 
 void hdvs::PostInit()
@@ -35,6 +35,13 @@ void hdvs::PostInit()
     try {
         YAML::Node stratagems = YAML::LoadFile("./data/stratagem.yml");
         m_stratagems = stratagems.as<std::vector<Stratagem>>();
+
+        for (size_t i = 0; i < m_stratagems.size(); i++)
+        {
+            QVariant var;
+            var.setValue(m_stratagems[i]);
+            emit LoadStratagem(var);
+        }
     }
     catch (std::runtime_error e) {
         LOG(QString("Error whilst loading './data/stratagem.yml': ") + e.what());
@@ -42,7 +49,6 @@ void hdvs::PostInit()
         return;
     }
     LOG("Stratagems loaded");
-    QThread::sleep(3);
 
     LOG("Ready");
 }

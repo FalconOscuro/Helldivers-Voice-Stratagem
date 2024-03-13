@@ -25,10 +25,17 @@ public:
 protected slots:
     void OnToggled(bool checked);
 
+protected:
+    void SetIcon(const QPixmap& pm);
+
 private:
 
-    QVBoxLayout* m_lay;
+    QHBoxLayout* m_lay_button;
+    QWidget* m_buttonArea;
+    QLabel* m_icon;
     QToolButton* m_button;
+
+    QVBoxLayout* m_lay;
     QScrollArea* m_contentArea;
     QParallelAnimationGroup* m_toggleAnimation;
 }; // class Box
