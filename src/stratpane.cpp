@@ -36,6 +36,7 @@ void StratPane::AddStratagem(const QVariant& var)
 
     Stratagem strat = var.value<Stratagem>();
     collapsible::Box* stratOpt = new collapsible::Box(QString::fromStdString(strat.name));
+    stratOpt->SetIcon(QPixmap("./data/icons/" + QString::fromStdString(strat.GetIconName())));
 
     m_lay_scroll->addWidget(stratOpt);
     m_stratOpts.push_back(stratOpt);

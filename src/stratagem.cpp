@@ -2,6 +2,14 @@
 
 namespace hdvs {
 
+std::string Stratagem::GetIconName() const
+{
+    if (icon != "")
+        return icon + (icon.find('.') == std::string::npos ? ".png" : "");
+
+    return name.substr(0, name.find(' ')) + ".png";
+}
+
 bool Stratagem::operator==(const Stratagem& rhs) const {
     // Compare tirggers? Un-ordered so == not viable
    return name == rhs.name && code == rhs.code && type == rhs.type; 

@@ -22,11 +22,10 @@ public:
 
     void SetContentLayout(QLayout* layout);
 
+    void SetIcon(const QPixmap& pm);
+
 protected slots:
     void OnToggled(bool checked);
-
-protected:
-    void SetIcon(const QPixmap& pm);
 
 private:
 

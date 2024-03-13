@@ -58,9 +58,6 @@ Box::Box(QString title, QWidget* parent):
     anim->setStartValue(sizeHint().height());
     anim->setEndValue(sizeHint().height());
     m_toggleAnimation->addAnimation(anim);
-
-    // TEMP
-    SetIcon(QPixmap("./data/icons/Icon.png"));
 }
 
 Box::~Box()

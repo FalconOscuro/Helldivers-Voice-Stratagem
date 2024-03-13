@@ -44,7 +44,7 @@ struct Stratagem
 
     Type type;
 
-    std::string GetIcon() const;
+    std::string GetIconName() const;
     bool operator==(const Stratagem& rhs) const;
 }; // struct Stratagem
 
