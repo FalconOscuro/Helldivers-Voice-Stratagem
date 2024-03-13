@@ -248,7 +248,7 @@
   enabled: True
   icon: Orbital-Smoke
 
-- name: E/MG-101 HMG Emplacement
+- name: E-MG-101 HMG Emplacement
   trigger: [ hmg emplacement ]
   code: [ D, U, L, R, R, L ]
   type: [ defensive. hellpod ]
@@ -260,7 +260,7 @@
   type: [ defensive. hellpod ]
   enabled: True
 
-- name: A/ARC-3 Tesla Tower
+- name: A-ARC-3 Tesla Tower
   trigger: [ tesla tower ]
   code: [ D, U, R, U, L, R ]
   type: [ defensive. hellpod, sentry ]
@@ -299,7 +299,7 @@
   type: [ defensive. hellpod, explosive ]
   enabled: True
 
-- name: AX/LAS-5 "Guard Dog" Rover
+- name: AX-LAS-5 "Guard Dog" Rover
   trigger: [ rover ]
   code: [ D, U, L, U, R, R ]
   type: [ supply, hellpod, backpack ]
@@ -326,40 +326,46 @@
 
 # ROBOTICS WORKSHOP
 
-- name: A/MG-43 Machine Gun Sentry
+- name: A-MG-43 Machine Gun Sentry
   trigger: [ machine gun sentry ]
   code: [ D, U, R, R, U ]
   type: [ defensive, hellpod, sentry ]
   enabled: True
 
-- name: A/G-16 Gatling Sentry
+- name: A-G-16 Gatling Sentry
   trigger: [ gatling gun sentry ]
   code: [ D, U, L, R ]
   type: [ defensive, hellpod, sentry ]
   enabled: True
 
-- name: A/M-12 Mortar Sentry
+- name: A-M-12 Mortar Sentry
   trigger: [ mortar sentry ]
   code: [ D, U, R, R, D ]
   type: [ defensive, hellpod, sentry, explosive ]
   enabled: True
 
-- name: AX/AR-23 "Guard Dog"
+- name: AX-AR-23 "Guard Dog"
   trigger: [ guard dog ]
   code: [ D, U, L, U, R, D ]
   type: [ supply, hellpod, backpack ]
   enabled: True
 
-- name: A/AC-8 Autocannon Sentry
+- name: A-AC-8 Autocannon Sentry
   trigger: [ autocannon sentry ]
   code: [ D, U, R, U, L, U ]
   type: [ defensive, hellpod, sentry, explosive ]
   enabled: True
 
-- name: A/MLS-4X Rocket Sentry
+- name: A-MLS-4X Rocket Sentry
   trigger: [ rocket pod sentry ]
   code: [ D, U, R, R, L ]
   type: [ defensive, hellpod, sentry, explosive ]
+  enabled: True
+
+- name: A-M-23 EMS Mortar Sentry
+  trigger: [ ems mortar sentry ]
+  code: [ D, D, U, U, L ]
+  type: [ defensive, hellpod, sentry ]
   enabled: True
 
 - name: EXO-45 Patriot Exosuit
