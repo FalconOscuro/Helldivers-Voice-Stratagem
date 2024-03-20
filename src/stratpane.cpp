@@ -16,33 +16,33 @@ StratOpt::StratOpt(const Stratagem& strat, QWidget* parent):
     SetIcon(QPixmap("./data/icons/" + QString::fromStdString(strat.GetIconName())));
     m_stratagem = strat;
 
-    QCheckBox* enabled = new QCheckBox("Enabled");
-    enabled->setChecked(strat.enabled);
+    m_enabled = new QCheckBox("Enabled");
+    m_enabled->setChecked(strat.enabled);
 
     QStringList list;
     for (auto t = strat.trigger.begin(); t != strat.trigger.end(); t++)
         list.push_back(QString::fromStdString(*t));
     
-    QStringListModel* trigList = new QStringListModel(list);
+    m_triggerModelList = new QStringListModel(list);
     QListView* listView = new QListView;
-    listView->setModel(trigList);
+    listView->setModel(m_triggerModelList);
     listView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
 
     // Add
     QPushButton* add = new QPushButton("Add");
-    connect(add, &QPushButton::pressed, trigList, [=]() {
-        trigList->insertRows(0, 1);
+    connect(add, &QPushButton::pressed, m_triggerModelList, [=]() {
+        m_triggerModelList->insertRows(0, 1);
 
-        auto index = trigList->index(0);
+        auto index = m_triggerModelList->index(0);
         listView->scrollTo(index);
         listView->edit(index);
     });
     // Remove
     QPushButton* remove = new QPushButton("Remove Selected");
-    connect(remove, &QPushButton::pressed, trigList, [=]() {
+    connect(remove, &QPushButton::pressed, m_triggerModelList, [=]() {
         auto indexes = listView->selectionModel()->selectedIndexes();
         for (auto index : indexes)
-            trigList->removeRow(index.row());
+            m_triggerModelList->removeRow(index.row());
     });
 
     QWidget* buttons = new QWidget;
@@ -62,8 +62,22 @@ StratOpt::StratOpt(const Stratagem& strat, QWidget* parent):
     QVBoxLayout* layout = new QVBoxLayout;
     layout->addWidget(trigLabel);
     layout->addWidget(trigArea);
-    layout->addWidget(enabled);
+    layout->addWidget(m_enabled);
     SetContentLayout(layout);
+}
+
+Stratagem StratOpt::GetState()
+{
+    m_stratagem.enabled = m_enabled->isChecked();
+
+    // TODO: format triggers
+
+    m_stratagem.trigger.clear();
+    QStringList triggers = m_triggerModelList->stringList();
+    for(auto trigger = triggers.begin(); trigger != triggers.end(); trigger++)
+        m_stratagem.trigger.push_back(trigger->toStdString());
+
+    return m_stratagem;
 }
 
 StratPane::StratPane(QWidget* parent):
@@ -94,6 +108,20 @@ void StratPane::AddStratagem(const QVariant& var)
 
     m_scrollArea->widget()->layout()->addWidget(stratOpt);
     m_stratOpts.push_back(stratOpt);
+}
+
+void StratPane::OnUpdateStratagems()
+{
+    QList<QVariant> stratagems;
+    for(size_t i = 0; i < m_stratOpts.size(); i++)
+    {
+        QVariant varStrat;
+        varStrat.setValue(m_stratOpts[i]->GetState());
+
+        stratagems.push_back(varStrat);
+    }
+
+    emit UpdateStratagems(stratagems);
 }
 
 } // namespace hdvs

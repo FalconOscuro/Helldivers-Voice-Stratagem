@@ -15,10 +15,23 @@ int main(int argc, char* argv[])
     hdvs::hdvs* core = new hdvs::hdvs;
     core->moveToThread(workerThread);
 
-    QObject::connect(core, &hdvs::hdvs::SendLog, window.GetStatus(), &hdvs::Status::ReceiveLog);
-    QObject::connect(core, &hdvs::hdvs::PhaseChange, window.GetStatus(), &hdvs::Status::SetPhase);
+    QObject::connect(
+        core,                   &hdvs::hdvs::SendLog,
+        window.GetStatus(),     &hdvs::Status::ReceiveLog
+    );
+    QObject::connect(
+        core,                   &hdvs::hdvs::PhaseChange,
+        window.GetStatus(),     &hdvs::Status::SetPhase
+    );
 
-    QObject::connect(core, &hdvs::hdvs::LoadStratagem, window.GetStratPane(), &hdvs::StratPane::AddStratagem);
+    QObject::connect(
+        core,                   &hdvs::hdvs::LoadStratagem,
+        window.GetStratPane(),  &hdvs::StratPane::AddStratagem
+    );
+    QObject::connect(
+        window.GetStratPane(),  &hdvs::StratPane::UpdateStratagems,
+        core,                   &hdvs::hdvs::UpdateStratagems
+    );
 
     workerThread->start();
     int exitCode = app.exec();

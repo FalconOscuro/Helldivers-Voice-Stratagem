@@ -3,6 +3,7 @@
 #include <QTimer>
 #include <QThread>
 #include <yaml-cpp/yaml.h>
+#include <fstream>
 
 #define LOG(msg) emit SendLog(msg)
 #define PHASE(phase) emit PhaseChange(phase)
@@ -15,8 +16,39 @@ hdvs::hdvs(QObject* parent):
     QTimer::singleShot(50, this, SLOT(PostInit()));
 }
 
-hdvs::~hdvs()
-{}
+void hdvs::UpdateStratagems(const QList<QVariant>& stratagems)
+{
+    std::vector<Stratagem> temp;
+    YAML::Node ymlOut;
+    for (size_t i = 0; i < stratagems.size(); i++)
+    {
+        QVariant var = stratagems[i];
+        if (!var.canConvert<Stratagem>())
+        {
+            LOG("Error whilst reading back data, could not convert!");
+            PHASE(Status::Phase::ERROR);
+            return;
+        }
+
+        Stratagem stratagem = var.value<Stratagem>();
+        temp.push_back(stratagem);
+        ymlOut.push_back(stratagem);
+    }
+
+    LOG("Successfuly recieved stratagem data writing...");
+    m_stratagems = temp;
+
+    std::ofstream fout(STRAT_PATH);
+    fout << ymlOut;
+
+    if (fout.bad())
+    {
+        LOG("Error whilst writing to '" STRAT_PATH "'");
+        PHASE(Status::Phase::ERROR);
+    }
+
+    fout.close();
+}
 
 void hdvs::PostInit()
 {
@@ -24,11 +56,11 @@ void hdvs::PostInit()
 
     LOG("Loading configuration...");
     try {
-        YAML::Node config = YAML::LoadFile("./data/config.yml");
+        YAML::Node config = YAML::LoadFile(CONFIG_PATH);
         m_config = config.as<Config>();
     }
     catch (std::runtime_error e) {
-        LOG(QString("Error whilst loading './data/config.yml': ") + e.what());
+        LOG(QString("Error whilst loading '" CONFIG_PATH "': ") + e.what());
         PHASE(Status::Phase::ERROR);
         return;
     }
@@ -36,18 +68,22 @@ void hdvs::PostInit()
 
     LOG("Loading stratagems...");
     try {
-        YAML::Node stratagems = YAML::LoadFile("./data/stratagem.yml");
-        m_stratagems = stratagems.as<std::vector<Stratagem>>();
+        YAML::Node stratagems = YAML::LoadFile(STRAT_PATH);
+        //m_stratagems = stratagems.as<std::vector<Stratagem>>();
 
-        for (size_t i = 0; i < m_stratagems.size(); i++)
+        for (size_t i = 0; i < stratagems.size(); i++)
         {
+            Stratagem strat = stratagems[i].as<Stratagem>();
+            m_stratagems.push_back(strat);
+
             QVariant var;
-            var.setValue(m_stratagems[i]);
+            var.setValue(strat);
+
             emit LoadStratagem(var);
         }
     }
     catch (std::runtime_error e) {
-        LOG(QString("Error whilst loading './data/stratagem.yml': ") + e.what());
+        LOG(QString("Error whilst loading '" STRAT_PATH "': ") + e.what());
         PHASE(Status::Phase::ERROR);
         return;
     }

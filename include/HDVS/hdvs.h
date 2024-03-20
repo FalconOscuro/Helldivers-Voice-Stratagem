@@ -9,6 +9,10 @@
 #include "status.h"
 #include "stratagem.h"
 
+#define DATA_PATH               "./data"
+#define CONFIG_PATH DATA_PATH   "/config.yml"
+#define STRAT_PATH  DATA_PATH   "/stratagem.yml"
+
 namespace hdvs {
 
 class hdvs : public QObject
@@ -16,7 +20,6 @@ class hdvs : public QObject
     Q_OBJECT
 public:
     explicit hdvs(QObject* parent = nullptr);
-    ~hdvs() override;
 
 signals:
     void SendLog(const QString& msg);
@@ -24,7 +27,8 @@ signals:
 
     void LoadStratagem(const QVariant& strat);
 
-protected:
+public slots:
+    void UpdateStratagems(const QList<QVariant>& stratagems);
 
 private slots:
     void PostInit();

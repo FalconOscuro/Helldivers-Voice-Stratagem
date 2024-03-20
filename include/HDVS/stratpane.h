@@ -3,6 +3,8 @@
 
 #include <QGroupBox>
 #include <QScrollArea>
+#include <QStringListModel>
+#include <QCheckBox>
 
 #include <vector>
 
@@ -17,8 +19,13 @@ class StratOpt : public collapsible::Box
 public:
     explicit StratOpt(const Stratagem& strat, QWidget* parent = nullptr);
 
+    Stratagem GetState();
+
 private:
     Stratagem m_stratagem;
+
+    QStringListModel* m_triggerModelList;
+    QCheckBox* m_enabled;
 }; // StratOpt
 
 class StratPane : public QGroupBox
@@ -27,8 +34,14 @@ class StratPane : public QGroupBox
 public:
     explicit StratPane(QWidget* parent = nullptr);
 
+signals:
+    void UpdateStratagems(const QList<QVariant>& stratagems);
+
 public slots:
     void AddStratagem(const QVariant& strat);
+
+private slots:
+    void OnUpdateStratagems();
 
 private:
 
