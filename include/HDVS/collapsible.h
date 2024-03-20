@@ -24,6 +24,8 @@ public:
 
     void SetIcon(const QPixmap& pm);
 
+    virtual QSize sizeHint() const override;
+
 protected slots:
     void OnToggled(bool checked);
 

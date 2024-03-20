@@ -41,7 +41,9 @@ Box::Box(QString title, QWidget* parent):
     m_lay->addWidget(m_contentArea);
 
     const int ms_ANIM_LEN = 500;
-    QPropertyAnimation* anim = new QPropertyAnimation(this, "minimumHeight");
+    QPropertyAnimation* anim;
+
+    anim = new QPropertyAnimation(this, "minimumHeight");
     anim->setDuration(ms_ANIM_LEN);
     anim->setStartValue(0);
     anim->setEndValue(0);
@@ -55,7 +57,7 @@ Box::Box(QString title, QWidget* parent):
 
     anim = new QPropertyAnimation(m_contentArea, "maximumHeight");
     anim->setDuration(ms_ANIM_LEN);
-    anim->setStartValue(sizeHint().height());
+    anim->setStartValue(0);
     anim->setEndValue(sizeHint().height());
     m_toggleAnimation->addAnimation(anim);
 }
@@ -77,8 +79,8 @@ void Box::SetContentLayout(QLayout* layout)
     delete m_contentArea->layout();
     m_contentArea->setLayout(layout);
     
-    int collapsedHeight = sizeHint().height() - m_contentArea->maximumHeight();
-    int contentHeight = layout->sizeHint().height();
+    int collapsedHeight = sizeHint().height();
+    int contentHeight = m_contentArea->sizeHint().height();
 
     for (int i = 0; i < m_toggleAnimation->animationCount() - 1; i++)
     {
@@ -111,6 +113,10 @@ void Box::OnToggled(bool checked)
 void Box::SetIcon(const QPixmap& pm) {
     const float ICON_SCALE = 0.9f;
     m_icon->setPixmap(pm.scaledToHeight(static_cast<int>(sizeHint().height() * ICON_SCALE)));
+}
+
+QSize Box::sizeHint() const {
+    return m_buttonArea->sizeHint();
 }
 
 } // namespace hdvs::collapsible

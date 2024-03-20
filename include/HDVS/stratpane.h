@@ -3,7 +3,6 @@
 
 #include <QGroupBox>
 #include <QScrollArea>
-#include <QVBoxLayout>
 
 #include <vector>
 
@@ -14,6 +13,12 @@ namespace hdvs {
 
 class StratOpt : public collapsible::Box
 {
+    Q_OBJECT
+public:
+    explicit StratOpt(const Stratagem& strat, QWidget* parent = nullptr);
+
+private:
+    Stratagem m_stratagem;
 }; // StratOpt
 
 class StratPane : public QGroupBox
@@ -29,7 +34,7 @@ private:
 
     QScrollArea* m_scrollArea;
 
-    std::vector<collapsible::Box*> m_stratOpts;
+    std::vector<StratOpt*> m_stratOpts;
 }; // class StratPane
 
 } // namespace hdvs
