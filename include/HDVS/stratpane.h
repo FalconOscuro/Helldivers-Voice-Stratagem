@@ -12,6 +12,10 @@
 
 namespace hdvs {
 
+class StratOpt : public collapsible::Box
+{
+}; // StratOpt
+
 class StratPane : public QGroupBox
 {
     Q_OBJECT

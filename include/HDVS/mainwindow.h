@@ -9,7 +9,7 @@
 
 namespace Ui {
     class MainWindow;
-}
+} // namespace Ui
 
 namespace hdvs {
 
@@ -28,8 +28,8 @@ private:
 
     Status* m_status;
     StratPane* m_strats;
-};
+}; // class MainWindow
 
-}
+} // namespace hdvs
 
 #endif //MAINWINDOW_H

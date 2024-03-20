@@ -102,9 +102,9 @@ void Box::SetContentLayout(QLayout* layout)
 
 void Box::OnToggled(bool checked)
 {
-    m_button->setArrowType(checked ? Qt::RightArrow : Qt::DownArrow);
+    m_button->setArrowType(checked ? Qt::DownArrow : Qt::RightArrow);
 
-    m_toggleAnimation->setDirection(checked ? QAbstractAnimation::Backward : QAbstractAnimation::Forward);
+    m_toggleAnimation->setDirection(checked ? QAbstractAnimation::Forward : QAbstractAnimation::Backward);
     m_toggleAnimation->start();
 }
 
