@@ -94,8 +94,12 @@ StratPane::StratPane(QWidget* parent):
     m_scrollArea->setWidgetResizable(true);
     m_scrollArea->setWidget(scrollContent);
 
+    QPushButton* saveButton = new QPushButton("Apply Changes");
+    connect(saveButton, &QPushButton::pressed, this, &StratPane::OnUpdateStratagems);
+
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addWidget(m_scrollArea);
+    layout->addWidget(saveButton);
 }
 
 void StratPane::AddStratagem(const QVariant& var)
