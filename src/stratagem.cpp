@@ -68,7 +68,7 @@ Node convert<hdvs::Stratagem::Type>::encode(const hdvs::Stratagem::Type& type)
     // check flags individually, if existing, add to sequence
     for (char i = 0; i < hdvs::Stratagem::NUM_TYPES; i++)
         if ((1 << i) & type)
-            node.push_back(hdvs::TYPE_NAMES[i]);
+            node.push_back(hdvs::TYPE_NAMES[static_cast<int>(i)]);
 
     return node;
 }
@@ -79,7 +79,7 @@ bool convert<hdvs::Stratagem::Type>::decode(const Node& node, hdvs::Stratagem::T
     if (!node.IsSequence())
         return false;
 
-    for (auto i = 0; i < node.size(); i++)
+    for (size_t i = 0; i < node.size(); i++)
     {
         std::string typeStr = node[i].as<std::string>();
         for (auto j = 0; j < hdvs::Stratagem::NUM_TYPES; j++)

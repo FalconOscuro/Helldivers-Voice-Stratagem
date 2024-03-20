@@ -20,7 +20,7 @@ void hdvs::UpdateStratagems(const QList<QVariant>& stratagems)
 {
     std::vector<Stratagem> temp;
     YAML::Node ymlOut;
-    for (size_t i = 0; i < stratagems.size(); i++)
+    for (int i = 0; i < stratagems.size(); i++)
     {
         QVariant var = stratagems[i];
         if (!var.canConvert<Stratagem>())
@@ -59,7 +59,7 @@ void hdvs::PostInit()
         YAML::Node config = YAML::LoadFile(CONFIG_PATH);
         m_config = config.as<Config>();
     }
-    catch (std::runtime_error e) {
+    catch (std::runtime_error& e) {
         LOG(QString("Error whilst loading '" CONFIG_PATH "': ") + e.what());
         PHASE(Status::Phase::ERROR);
         return;
@@ -82,7 +82,7 @@ void hdvs::PostInit()
             emit LoadStratagem(var);
         }
     }
-    catch (std::runtime_error e) {
+    catch (std::runtime_error& e) {
         LOG(QString("Error whilst loading '" STRAT_PATH "': ") + e.what());
         PHASE(Status::Phase::ERROR);
         return;
