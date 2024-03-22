@@ -40,10 +40,10 @@ Node convert<hdvs::Config::Keys>::encode(const hdvs::Config::Keys& keys)
 {
     Node node;
 
-    node["up"] = keys.up;
-    node["down"] = keys.down;
-    node["left"] = keys.left;
-    node["right"] = keys.right;
+    node["up"]        = keys.up;
+    node["down"]      = keys.down;
+    node["left"]      = keys.left;
+    node["right"]     = keys.right;
     node["stratagem"] = keys.stratagem;
 
     return node;
@@ -54,11 +54,11 @@ bool convert<hdvs::Config::Keys>::decode(const Node& node, hdvs::Config::Keys& k
     if (!(node.IsMap() && node["up"] && node["down"] && node["left"] && node["right"] && node["stratagem"]))
         return false;
 
-    keys.up = node["up"].as<std::string>();
-    keys.down = node["down"].as<std::string>();
-    keys.left = node["left"].as<std::string>();
-    keys.right = node["right"].as<std::string>();
-    keys.stratagem = node["stratagem"].as<std::string>();
+    keys.up         = node["up"].as<int>();
+    keys.down       = node["down"].as<int>();
+    keys.left       = node["left"].as<int>();
+    keys.right      = node["right"].as<int>();
+    keys.stratagem  = node["stratagem"].as<int>();
 
     return true;
 }

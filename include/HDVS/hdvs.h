@@ -15,29 +15,32 @@
 
 namespace hdvs {
 
-class hdvs : public QObject
+class HDVS : public QObject
 {
     Q_OBJECT
 public:
-    explicit hdvs(QObject* parent = nullptr);
+    explicit HDVS(QObject* parent = nullptr);
 
 signals:
     void SendLog(const QString& msg);
-    void PhaseChange(Status::Phase phase);
+    void PhaseChange(hdvs::Status::Phase phase);
 
-    void LoadStratagem(const QVariant& strat);
+    void LoadStratagem(const hdvs::Stratagem& strat);
 
 public slots:
-    void UpdateStratagems(const QList<QVariant>& stratagems);
+    void UpdateStratagems(const QList<hdvs::Stratagem>& stratagems);
 
 private slots:
     void PostInit();
 
+    void CheckState();
+    void Listen();
+
 private:
     Config m_config;
     std::vector<Stratagem> m_stratagems;
-};
+}; // class HDVS
 
-}
+} // namespace hdvs
 
 #endif // HDVS_H

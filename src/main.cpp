@@ -8,29 +8,32 @@ int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
 
+    qRegisterMetaType<hdvs::Status::Phase>();
+    qRegisterMetaType<hdvs::Stratagem>();
+
     hdvs::MainWindow window;
     window.show();
 
     QThread* workerThread = new QThread;
-    hdvs::hdvs* core = new hdvs::hdvs;
+    hdvs::HDVS* core = new hdvs::HDVS;
     core->moveToThread(workerThread);
 
     QObject::connect(
-        core,                   &hdvs::hdvs::SendLog,
+        core,                   &hdvs::HDVS::SendLog,
         window.GetStatus(),     &hdvs::Status::ReceiveLog
     );
     QObject::connect(
-        core,                   &hdvs::hdvs::PhaseChange,
+        core,                   &hdvs::HDVS::PhaseChange,
         window.GetStatus(),     &hdvs::Status::SetPhase
     );
 
     QObject::connect(
-        core,                   &hdvs::hdvs::LoadStratagem,
+        core,                   &hdvs::HDVS::LoadStratagem,
         window.GetStratPane(),  &hdvs::StratPane::AddStratagem
     );
     QObject::connect(
         window.GetStratPane(),  &hdvs::StratPane::UpdateStratagems,
-        core,                   &hdvs::hdvs::UpdateStratagems
+        core,                   &hdvs::HDVS::UpdateStratagems
     );
 
     workerThread->start();

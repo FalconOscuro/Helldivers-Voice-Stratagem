@@ -11,12 +11,12 @@ struct Config
     float diallingSpeed;
 
     struct Keys {
-        std::string up;
-        std::string down;
-        std::string left;
-        std::string right;
+        int up;
+        int down;
+        int left;
+        int right;
 
-        std::string stratagem;
+        int stratagem;
 
         bool operator==(const Keys& rhs) const;
     };

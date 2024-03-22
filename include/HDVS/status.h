@@ -26,7 +26,7 @@ public:
 
 public slots:
 
-    void SetPhase(Phase phase);
+    void SetPhase(hdvs::Status::Phase phase);
     void ReceiveLog(const QString& msg);
 
 private:
@@ -36,5 +36,7 @@ private:
 }; // class Status
 
 } // namespace hdvs
+
+Q_DECLARE_METATYPE(hdvs::Status::Phase)
 
 #endif

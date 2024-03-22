@@ -30,7 +30,7 @@ StratOpt::StratOpt(const Stratagem& strat, QWidget* parent):
 
     // Add
     QPushButton* add = new QPushButton("Add");
-    add->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    add->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     connect(add, &QPushButton::pressed, m_triggerModelList, [=]() {
         m_triggerModelList->insertRows(0, 1);
 
@@ -40,6 +40,7 @@ StratOpt::StratOpt(const Stratagem& strat, QWidget* parent):
     });
     // Remove
     QPushButton* remove = new QPushButton("Remove Selected");
+    remove->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     connect(remove, &QPushButton::pressed, m_triggerModelList, [=]() {
         auto indexes = listView->selectionModel()->selectedIndexes();
         for (auto index : indexes)
@@ -103,13 +104,9 @@ StratPane::StratPane(QWidget* parent):
     layout->addWidget(saveButton);
 }
 
-void StratPane::AddStratagem(const QVariant& var)
+void StratPane::AddStratagem(const hdvs::Stratagem& stratagem)
 {
-    if (!var.canConvert<Stratagem>())
-        return;
-
-    Stratagem strat = var.value<Stratagem>();
-    StratOpt* stratOpt = new StratOpt(strat);
+    StratOpt* stratOpt = new StratOpt(stratagem);
 
     m_scrollArea->widget()->layout()->addWidget(stratOpt);
     m_stratOpts.push_back(stratOpt);
@@ -117,14 +114,9 @@ void StratPane::AddStratagem(const QVariant& var)
 
 void StratPane::OnUpdateStratagems()
 {
-    QList<QVariant> stratagems;
+    QList<Stratagem> stratagems;
     for(size_t i = 0; i < m_stratOpts.size(); i++)
-    {
-        QVariant varStrat;
-        varStrat.setValue(m_stratOpts[i]->GetState());
-
-        stratagems.push_back(varStrat);
-    }
+        stratagems.push_back(m_stratOpts[i]->GetState());
 
     emit UpdateStratagems(stratagems);
 }

@@ -35,10 +35,10 @@ public:
     explicit StratPane(QWidget* parent = nullptr);
 
 signals:
-    void UpdateStratagems(const QList<QVariant>& stratagems);
+    void UpdateStratagems(const QList<hdvs::Stratagem>& stratagems);
 
 public slots:
-    void AddStratagem(const QVariant& strat);
+    void AddStratagem(const hdvs::Stratagem& stratagem);
 
 private slots:
     void OnUpdateStratagems();

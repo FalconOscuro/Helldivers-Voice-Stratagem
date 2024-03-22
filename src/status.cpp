@@ -22,7 +22,7 @@ Status::Status(QWidget* parent):
     layout->addWidget(m_log);
 }
 
-void Status::SetPhase(Phase phase)
+void Status::SetPhase(hdvs::Status::Phase phase)
 {
     QColor colour;
     QString msg;

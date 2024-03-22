@@ -5,38 +5,40 @@
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 
+#include <windows.h>
+#include <winuser.h>
+// Windows Error macro collides with status enum
+#ifdef ERROR
+#undef ERROR
+#endif
+
 #define LOG(msg) emit SendLog(msg)
 #define PHASE(phase) emit PhaseChange(phase)
+// Temp!!
+#define TICK_RATE 50
 
 namespace hdvs {
 
-hdvs::hdvs(QObject* parent):
+HDVS::HDVS(QObject* parent):
     QObject(parent)
 {
-    QTimer::singleShot(50, this, SLOT(PostInit()));
+    QTimer::singleShot(0, this, SLOT(PostInit()));
 }
 
-void hdvs::UpdateStratagems(const QList<QVariant>& stratagems)
+void HDVS::UpdateStratagems(const QList<hdvs::Stratagem>& stratagems)
 {
-    std::vector<Stratagem> temp;
     YAML::Node ymlOut;
+    m_stratagems.clear();
+
     for (int i = 0; i < stratagems.size(); i++)
     {
-        QVariant var = stratagems[i];
-        if (!var.canConvert<Stratagem>())
-        {
-            LOG("Error whilst reading back data, could not convert!");
-            PHASE(Status::Phase::ERROR);
-            return;
-        }
+        Stratagem stratagem = stratagems[i];
 
-        Stratagem stratagem = var.value<Stratagem>();
-        temp.push_back(stratagem);
+        m_stratagems.push_back(stratagem);
         ymlOut.push_back(stratagem);
     }
 
-    LOG("Successfuly recieved stratagem data writing...");
-    m_stratagems = temp;
+    LOG("Recieved stratagem data writing...");
 
     std::ofstream fout(STRAT_PATH);
     fout << ymlOut;
@@ -50,7 +52,7 @@ void hdvs::UpdateStratagems(const QList<QVariant>& stratagems)
     fout.close();
 }
 
-void hdvs::PostInit()
+void HDVS::PostInit()
 {
     LOG("Beginning startup");
 
@@ -69,18 +71,11 @@ void hdvs::PostInit()
     LOG("Loading stratagems...");
     try {
         YAML::Node stratagems = YAML::LoadFile(STRAT_PATH);
-        //m_stratagems = stratagems.as<std::vector<Stratagem>>();
 
+        // could just emit as list
         for (size_t i = 0; i < stratagems.size(); i++)
-        {
-            Stratagem strat = stratagems[i].as<Stratagem>();
-            m_stratagems.push_back(strat);
-
-            QVariant var;
-            var.setValue(strat);
-
-            emit LoadStratagem(var);
-        }
+            emit LoadStratagem(stratagems[i].as<Stratagem>());
+        
     }
     catch (std::runtime_error& e) {
         LOG(QString("Error whilst loading '" STRAT_PATH "': ") + e.what());
@@ -90,6 +85,39 @@ void hdvs::PostInit()
     LOG("Stratagems loaded");
 
     LOG("Ready");
+    QTimer::singleShot(TICK_RATE, this, SLOT(CheckState()));
+}
+
+void HDVS::CheckState()
+{
+    if (GetKeyState(m_config.keys.stratagem) & WM_KEYDOWN)
+    {
+        // start listening
+        QTimer::singleShot(0, this, SLOT(Listen()));
+        return;
+    }
+
+    QTimer::singleShot(TICK_RATE, this, SLOT(CheckState()));
+}
+
+void HDVS::Listen()
+{
+    LOG("Listening...");
+    PHASE(Status::Phase::LISTENING);
+
+    // Listen
+    bool decoded = false;
+
+    // Listen again if still held
+    if (GetKeyState(m_config.keys.stratagem) & WM_KEYDOWN && !decoded)
+        QTimer::singleShot(500, this, SLOT(Listen()));
+
+    // TODO: Pause until stratagem released
+    else
+    {
+        PHASE(Status::Phase::IDLE);
+        QTimer::singleShot(TICK_RATE, this, SLOT(CheckState()));
+    }
 }
 
 }

@@ -1,8 +1,8 @@
 keys:
-  up: w
-  down: s
-  left: a
-  right: d
-  stratagem: ctrl
+  up: "0x57"
+  down: "0x53"
+  left: "0x41"
+  right: "0x44"
+  stratagem: "0x11"
 
 dialling-speed: 0.1

@@ -49,6 +49,7 @@ target_sources(${PROJECT_NAME} PUBLIC
     ${SRC_DIR}/status.cpp
     ${INC_DIR}/status.h
     ${SRC_DIR}/stratagem.cpp
+    ${INC_DIR}/stratagem.h
     ${SRC_DIR}/config.cpp
     ${SRC_DIR}/collapsible.cpp
     ${INC_DIR}/collapsible.h
