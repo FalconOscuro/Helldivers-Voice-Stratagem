@@ -26,10 +26,11 @@ StratOpt::StratOpt(const Stratagem& strat, QWidget* parent):
     m_triggerModelList = new QStringListModel(list);
     QListView* listView = new QListView;
     listView->setModel(m_triggerModelList);
-    listView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
+    //listView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
 
     // Add
     QPushButton* add = new QPushButton("Add");
+    add->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     connect(add, &QPushButton::pressed, m_triggerModelList, [=]() {
         m_triggerModelList->insertRows(0, 1);
 

@@ -57,9 +57,9 @@ target_sources(${PROJECT_NAME} PUBLIC
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt::Widgets
-    Qt::Core
-    Qt::Gui
+    Qt5::Widgets
+    Qt5::Core
+    Qt5::Gui
     yaml-cpp::yaml-cpp
 )
 
