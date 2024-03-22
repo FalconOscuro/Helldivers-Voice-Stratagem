@@ -49,7 +49,7 @@ void Status::SetPhase(Phase phase)
         msg = "Executing!";
         break;
 
-    case ERROR:
+    default:
         colour = QColor("Red");
         msg = "ERROR!";
         break;
