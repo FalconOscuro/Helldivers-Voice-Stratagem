@@ -16,6 +16,7 @@ set(CMAKE_AUTOUIC ON)
 
 message(STATUS "Retrieving packages")
 
+message(STATUS "Searching for Qt5")
 find_package(Qt5 REQUIRED COMPONENTS Widgets Core Gui)
 
 include(FetchContent)
@@ -32,6 +33,23 @@ if(NOT yaml-cpp_POPULATED)
     FetchContent_Populate(yaml-cpp)
     add_subdirectory(${yaml-cpp_SOURCE_DIR} ${yaml-cpp_BINARY_DIR})
 endif()
+
+#Set(WHISPER_CLBLAST ON) Doesn't work?
+FetchContent_Declare(
+    whisper-cpp
+    GIT_REPOSITORY https://github.com/ggerganov/whisper.cpp.git
+    GIT_TAG v1.5.4
+)
+FetchContent_GetProperties(whisper-cpp)
+
+if(NOT whisper-cpp_POPULATED)
+    message(STATUS "Fetching whisper.cpp...")
+    FetchContent_Populate(whisper-cpp)
+    add_subdirectory(${whisper-cpp_SOURCE_DIR} ${whisper-cpp_BINARY_DIR})
+endif()
+
+message(STATUS "Searching for SDL2...")
+find_package(SDL2 REQUIRED COMPONENTS SDL2)
 
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(GUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ui)
@@ -55,6 +73,7 @@ target_sources(${PROJECT_NAME} PUBLIC
     ${INC_DIR}/collapsible.h
     ${SRC_DIR}/stratpane.cpp
     ${INC_DIR}/stratpane.h
+    ${SRC_DIR}/common-sdl.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -62,6 +81,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt5::Core
     Qt5::Gui
     yaml-cpp::yaml-cpp
+    whisper
+    ${SDL2_LIBRARIES}
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -70,6 +91,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+    PUBLIC ${SDL2_INCLUDE_DIRS}
 )
 
 if (MSVC)

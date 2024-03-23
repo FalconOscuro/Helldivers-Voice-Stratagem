@@ -1,6 +1,8 @@
 #include "HDVS/mainwindow.h"
 #include "HDVS/hdvs.h"
 
+#include <SDL.h>
+
 #include <QApplication>
 #include <QThread>
 
