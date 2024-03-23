@@ -27,6 +27,7 @@ StratOpt::StratOpt(const Stratagem& strat, QWidget* parent):
     QListView* listView = new QListView;
     listView->setModel(m_triggerModelList);
     //listView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
+    //listView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
 
     // Add
     QPushButton* add = new QPushButton("Add");
