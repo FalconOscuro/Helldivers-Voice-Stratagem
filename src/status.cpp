@@ -14,6 +14,7 @@ Status::Status(QWidget* parent):
 
     m_log = new QPlainTextEdit;
     m_log->setReadOnly(true);
+    m_log->setTextInteractionFlags(Qt::NoTextInteraction);
 
     SetPhase(Phase::IDLE);
 

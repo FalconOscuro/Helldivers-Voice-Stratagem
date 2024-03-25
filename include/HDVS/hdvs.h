@@ -45,6 +45,7 @@ private:
 
     Config m_config;
     std::vector<Stratagem> m_stratagems;
+    std::vector<std::pair<std::string, size_t>> m_triggers_id;
 
     util::audio_async* m_audio;
     whisper_context* m_wctx;

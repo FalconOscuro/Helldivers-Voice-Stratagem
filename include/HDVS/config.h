@@ -28,7 +28,7 @@ struct Config
 
     struct Listen {
         uint32_t n_threads = std::min((unsigned int)4, std::thread::hardware_concurrency());
-        uint32_t step_ms = 2000;
+        uint32_t step_ms = 3000;
         uint32_t length_ms = 6000;
         uint32_t keep_ms = 200;
         uint32_t capture_id = -1;

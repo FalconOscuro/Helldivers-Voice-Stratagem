@@ -52,6 +52,8 @@ void HDVS::UpdateStratagems(const QList<hdvs::Stratagem>& stratagems)
         PHASE(ERROR);
     }
 
+    SetTriggerWords();
+
     fout.close();
 }
 
@@ -81,7 +83,11 @@ void HDVS::PostInit()
 
         // could just emit as list
         for (size_t i = 0; i < stratagems.size(); i++)
-            emit LoadStratagem(stratagems[i].as<Stratagem>());
+        {
+            Stratagem strat = stratagems[i].as<Stratagem>();
+            m_stratagems.push_back(strat);
+            emit LoadStratagem(strat);
+        }
         
     }
     catch (std::runtime_error& e) {
@@ -89,7 +95,7 @@ void HDVS::PostInit()
         PHASE(ERROR);
         return;
     }
-    LOG("Stratagems loaded");
+    LOG(QString::number(m_stratagems.size()) +  " Stratagems loaded");
 
     LOG("Initializing audio...");
     m_audio = new util::audio_async(m_config.listen.length_ms);
@@ -153,6 +159,29 @@ void HDVS::Listen()
     m_audio->resume();
     m_audio->clear();
 
+    whisper_full_params wparams = whisper_full_default_params(WHISPER_SAMPLING_GREEDY);
+    {
+        wparams.print_progress = false;
+        wparams.print_special = false;
+        wparams.print_realtime = false;
+        wparams.print_timestamps = false;
+        wparams.translate = false;
+        wparams.no_context = true;
+        wparams.single_segment = true;
+        wparams.max_tokens = 1;
+        wparams.language = params.language.c_str();
+        wparams.n_threads = params.n_threads;
+
+        wparams.audio_ctx = 0;
+        wparams.speed_up = false;
+
+        wparams.tdrz_enable = false; // Tiny Diarization NOTE
+
+        // Use trigger word tokens
+        wparams.prompt_tokens = m_trigger_prompt.data();
+        wparams.prompt_n_tokens = m_trigger_prompt.size();
+    }
+
     m_running = true;
     
     while (m_running)
@@ -202,27 +231,6 @@ void HDVS::Listen()
         pcmf32_old = pcmf32;
 
         // run whisper inference
-        whisper_full_params wparams = whisper_full_default_params(WHISPER_SAMPLING_GREEDY);
-        {
-            wparams.print_progress   = false;
-            wparams.print_special    = false;
-            wparams.print_realtime   = false;
-            wparams.print_timestamps = false;
-            wparams.translate        = false;
-            wparams.single_segment   = true;
-            wparams.max_tokens       = params.max_tokens;
-            wparams.language         = params.language.c_str();
-            wparams.n_threads        = params.n_threads;
-
-            wparams.audio_ctx        = 0;
-            wparams.speed_up         = false;
-
-            wparams.tdrz_enable      = false; // Tiny Diarization NOTE
-
-            // Use trigger word tokens
-            //wparams.prompt_tokens    = m_trigger_prompt.data();
-            //wparams.prompt_n_tokens  = m_trigger_prompt.size();
-        }
 
         if (whisper_full(m_wctx, wparams, pcmf32.data(), pcmf32.size()) != 0)
         {
@@ -231,10 +239,59 @@ void HDVS::Listen()
             return; // TODO: Don't quit thread on fail?
         }
 
-        for (int i = 0; i < whisper_full_n_segments(m_wctx); i++)
+        // Estimate spoken trigger phrase
         {
-            const char* text = whisper_full_get_segment_text(m_wctx, i);
-            LOG(text);
+            const float* logits = whisper_get_logits(m_wctx);
+            std::vector<float> probs(whisper_n_vocab(m_wctx), 0.0f);
+
+            if (probs.size() > 0)
+            {
+                float max = logits[0];
+                for (size_t i = 1; i < probs.size(); i++)
+                    max = std::max(max, logits[i]);
+                
+                float sum = 0.0f;
+                for (size_t i = 0; i < probs.size(); i++) {
+                    probs[i] = expf(logits[i] - max);
+                    sum += probs[i];
+                }
+
+                for (size_t i = 0; i < probs.size(); i++)
+                    probs[i] /= sum;
+            }
+
+            // Probabilities + id for sorting
+            std::vector<std::pair<float, size_t>> probs_id;
+            size_t max_id = 0;
+            //double psum = 0.0;
+            for (size_t i = 0; i < m_trigger_tokens.size(); i++)
+            {
+                double prob = 0.0;
+                for (size_t j = 0; j < m_trigger_tokens[i].size(); j++)
+                    prob += probs[m_trigger_tokens[i][j]];
+                
+                prob /= m_trigger_tokens[i].size();
+                //psum += prob;
+                probs_id.emplace_back(prob, m_triggers_id[i].second); // Change to point to stratagem
+
+                if (prob > probs_id[max_id].first)
+                    max_id = i;
+            }
+
+            // normalize
+            //for (size_t i = 0; i < probs_id.size(); i++)
+            //    probs_id[i].first /= psum;
+
+            // TODO: Sorting?
+            // TODO: Thresholds?
+            //for (const auto& p : probs_id)
+            //    LOG("Heard Keyword: " + QString::fromStdString(m_triggers_id[p.second].first) + " : " + QString::number(p.first));
+
+            if (probs_id.size() > 0)
+            {
+                const auto& max_prob = probs_id[max_id];
+                LOG("Heard Stratagem: " + QString::fromStdString(m_stratagems[max_prob.second].name) + " : " + QString::number(max_prob.first));
+            }
         }
 
         // Condition for identified token
@@ -263,46 +320,53 @@ void HDVS::SetTriggerWords()
     PHASE(PROCESSING);
     m_trigger_tokens.clear();
     m_trigger_prompt.clear();
+    m_triggers_id.clear();
 
     std::string prompt = "";
-
-    for (const auto& stratagem : m_stratagems)
+    for (size_t i = 0; i < m_stratagems.size(); i++)
     {
-        // Skip disabled
-        if (!stratagem.enabled)
+        if (!m_stratagems[i].enabled)
             continue;
         
-        for (const auto& trigger : stratagem.trigger)
+        for (const auto& trigger : m_stratagems[i].trigger)
         {
+            m_triggers_id.emplace_back(trigger, i);
+
             if (prompt != "")
                 prompt += ", ";
-            
             prompt += trigger;
 
             whisper_token tokens[n_tokens];
             m_trigger_tokens.emplace_back();
 
-            for (size_t i = 0; i < trigger.size(); i++)
+            for (size_t j = 0; j < trigger.size(); j++)
             {
                 // Whitespace is required as first decoded token begins with whitespace
-                std::string ss = std::string(" ") + trigger.substr(0, i + 1);
+                std::string ss = std::string(" ") + trigger.substr(0, j + 1);
 
-                if (whisper_tokenize(m_wctx, ss.c_str(), tokens, n_tokens) != 1)
+                int n = whisper_tokenize(m_wctx, ss.c_str(), tokens, n_tokens);
+                //LOG(QString::number(n));
+                if (n < 0)
                 {
                     LOG(QString::fromStdString("Failed to tokenize trigger: " + trigger));
                     m_trigger_tokens.pop_back();
                     break;
                 }
 
-                m_trigger_tokens.back().push_back(tokens[0]);
+                else if (n == 1)
+                    m_trigger_tokens.back().push_back(tokens[0]);
             }
         }
     }
-    prompt = "Select one from the available phrases: " + prompt + ". selected phrase: ";
+
+    prompt = "select one from the available triggers: " + prompt + ". selected trigger: ";
 
     m_trigger_prompt.resize(n_tokens);
-    if (whisper_tokenize(m_wctx, prompt.c_str(), m_trigger_prompt.data(), n_tokens) < 0)
+    int n = whisper_tokenize(m_wctx, prompt.c_str(), m_trigger_prompt.data(), n_tokens);
+    if (n < 0)
         LOG(QString::fromStdString("Failed to tokenize prompt: " + prompt));
+    
+    m_trigger_prompt.resize(static_cast<size_t>(n));
 
     PHASE(IDLE);
 }
