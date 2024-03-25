@@ -31,7 +31,7 @@ bool convert<hdvs::Config>::decode(const Node& node, hdvs::Config& cfg)
     if (!(node.IsMap() && node["keys"] && node["dialling-speed"]))
         return false;
 
-    cfg.diallingSpeed = node["dialling-speed"].as<float>();
+    cfg.diallingSpeed = node["dialling-speed"].as<size_t>();
 
     return convert<hdvs::Config::Keys>::decode(node["keys"], cfg.keys);
 }

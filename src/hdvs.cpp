@@ -291,6 +291,7 @@ void HDVS::Listen()
             {
                 const auto& max_prob = probs_id[max_id];
                 LOG("Heard Stratagem: " + QString::fromStdString(m_stratagems[max_prob.second].name) + " : " + QString::number(max_prob.first));
+                ExecuteStratagem(max_prob.second);
             }
         }
 
@@ -369,6 +370,58 @@ void HDVS::SetTriggerWords()
     m_trigger_prompt.resize(static_cast<size_t>(n));
 
     PHASE(IDLE);
+}
+
+void HDVS::ExecuteStratagem(size_t strat_id)
+{
+    PHASE(EXECUTING);
+    size_t code_len = m_stratagems[strat_id].code.size();
+
+    // Parse code
+    for (size_t i = 0; i < code_len; i++)
+    {
+        INPUT input[2] = {};
+        int key;
+        Stratagem::Direction dir = m_stratagems[strat_id].code[i];
+
+        switch (dir)
+        {
+        case Stratagem::Direction::UP:
+            key = m_config.keys.up;
+            break;
+        
+        case Stratagem::Direction::DOWN:
+            key = m_config.keys.down;
+            break;
+
+        case Stratagem::Direction::RIGHT:
+            key = m_config.keys.right;
+            break;
+        
+        default:
+            key = m_config.keys.left;
+            break;
+        }
+
+        input[0].type = INPUT_KEYBOARD;
+        input[0].ki.wVk = key;
+
+        input[1] = input[1];
+        input[1].ki.dwFlags = KEYEVENTF_KEYUP;
+
+        // Send keydown
+        if (!SendInput(1, input, sizeof(INPUT)))
+            LOG("SendInput Failed: "); // TODO: Better error reporting
+        
+        QThread::msleep(m_config.diallingSpeed / 2);
+
+        if (!SendInput(1, input + 1, sizeof(INPUT)))
+            LOG("SendInput Failed: "); // TODO: Better error reporting
+        
+        // no delay after last keypress
+        if (i != code_len - 1)
+            QThread::msleep(m_config.diallingSpeed / 2);
+    }
 }
 
 }

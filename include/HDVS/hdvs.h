@@ -42,6 +42,7 @@ private slots:
 private:
     bool StratKeyHeld() const;
     void SetTriggerWords();
+    void ExecuteStratagem(size_t strat_id);
 
     Config m_config;
     std::vector<Stratagem> m_stratagems;

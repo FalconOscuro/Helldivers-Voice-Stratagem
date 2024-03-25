@@ -10,7 +10,7 @@ namespace hdvs {
 
 struct Config
 {
-    float diallingSpeed;
+    size_t diallingSpeed;
     size_t tick_rate_ms = 50;
 
     struct Keys {

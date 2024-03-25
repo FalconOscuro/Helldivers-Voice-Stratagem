@@ -5,4 +5,4 @@ keys:
   right: "0x44"
   stratagem: "0x11"
 
-dialling-speed: 0.1
+dialling-speed: 50
