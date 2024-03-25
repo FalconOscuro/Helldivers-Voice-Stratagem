@@ -292,6 +292,7 @@ void HDVS::Listen()
                 const auto& max_prob = probs_id[max_id];
                 LOG("Heard Stratagem: " + QString::fromStdString(m_stratagems[max_prob.second].name) + " : " + QString::number(max_prob.first));
                 ExecuteStratagem(max_prob.second);
+                running = false;
             }
         }
 
@@ -302,7 +303,9 @@ void HDVS::Listen()
     LOG("Listening Stopped");
     m_audio->pause();
 
-    // await key release
+    // Sleep thread until stratagem key release to avoid extra inputs
+    while (StratKeyHeld())
+        QThread::msleep(5);
 
     PHASE(IDLE);
     QTimer::singleShot(m_config.tick_rate_ms, this, SLOT(CheckState()));
