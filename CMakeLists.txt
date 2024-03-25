@@ -64,11 +64,13 @@ target_sources(${PROJECT_NAME} PUBLIC
     ${SRC_DIR}/hdvs.cpp
     ${INC_DIR}/hdvs.h
     ${SRC_DIR}/options.cpp
+    ${INC_DIR}/options.h
     ${SRC_DIR}/status.cpp
     ${INC_DIR}/status.h
     ${SRC_DIR}/stratagem.cpp
     ${INC_DIR}/stratagem.h
     ${SRC_DIR}/config.cpp
+    ${INC_DIR}/config.h
     ${SRC_DIR}/collapsible.cpp
     ${INC_DIR}/collapsible.h
     ${SRC_DIR}/stratpane.cpp

@@ -1,8 +1,8 @@
 keys:
-  up: "0x57"
-  down: "0x53"
-  left: "0x41"
-  right: "0x44"
+  up: "0x26"
+  down: "0x28"
+  left: "0x25"
+  right: "0x27"
   stratagem: "0x11"
 
 dialling-speed: 50

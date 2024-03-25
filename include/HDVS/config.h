@@ -3,6 +3,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <string>
+#include <QMetaType>
 
 #include <thread>
 
@@ -46,6 +47,8 @@ struct Config
 };
 
 } // namespace hdvs
+
+Q_DECLARE_METATYPE(hdvs::Config)
 
 namespace YAML {
 template<>

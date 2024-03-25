@@ -6,6 +6,7 @@
 
 #include "status.h"
 #include "stratpane.h"
+#include "options.h"
 
 namespace Ui {
     class MainWindow;
@@ -22,12 +23,14 @@ public:
 
     Status* GetStatus() const;
     StratPane* GetStratPane() const;
+    Options* GetOptions() const;
 
 private:
     Ui::MainWindow* m_ui;
 
     Status* m_status;
     StratPane* m_strats;
+    Options* m_options;
 }; // class MainWindow
 
 } // namespace hdvs

@@ -69,6 +69,7 @@ void HDVS::PostInit()
     try {
         YAML::Node config = YAML::LoadFile(CONFIG_PATH);
         m_config = config.as<Config>();
+        emit LoadConfig(m_config);
     }
     catch (std::runtime_error& e) {
         LOG(QString("Error whilst loading '" CONFIG_PATH "': ") + e.what());
@@ -292,7 +293,7 @@ void HDVS::Listen()
                 const auto& max_prob = probs_id[max_id];
                 LOG("Heard Stratagem: " + QString::fromStdString(m_stratagems[max_prob.second].name) + " : " + QString::number(max_prob.first));
                 ExecuteStratagem(max_prob.second);
-                running = false;
+                m_running = false;
             }
         }
 

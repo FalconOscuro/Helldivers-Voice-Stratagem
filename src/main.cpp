@@ -12,6 +12,7 @@ int main(int argc, char* argv[])
 
     qRegisterMetaType<hdvs::Status::Phase>();
     qRegisterMetaType<hdvs::Stratagem>();
+    qRegisterMetaType<hdvs::Config>();
 
     hdvs::MainWindow window;
     window.show();
@@ -36,6 +37,11 @@ int main(int argc, char* argv[])
     QObject::connect(
         window.GetStratPane(),  &hdvs::StratPane::UpdateStratagems,
         core,                   &hdvs::HDVS::UpdateStratagems
+    );
+
+    QObject::connect(
+        core,                   &hdvs::HDVS::LoadConfig,
+        window.GetOptions(),    &hdvs::Options::ReceiveConfig
     );
 
     workerThread->start();

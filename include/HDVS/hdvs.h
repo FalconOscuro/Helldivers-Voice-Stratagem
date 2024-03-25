@@ -28,6 +28,7 @@ signals:
     void PhaseChange(hdvs::Status::Phase phase);
 
     void LoadStratagem(const hdvs::Stratagem& strat);
+    void LoadConfig(const hdvs::Config& cfg);
 
 public slots:
     void UpdateStratagems(const QList<hdvs::Stratagem>& stratagems);
